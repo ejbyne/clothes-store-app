@@ -6,7 +6,7 @@ module.exports = function(grunt){
       options: {
         forceExit: true,
       },
-      all: ['spec/']
+      all: ['spec/*']
     },
 
     jshint: {
@@ -15,7 +15,7 @@ module.exports = function(grunt){
     
     watch: {
       scripts: {
-        files: [],
+        files: ['spec/*'],
         tasks: ['jasmine_node', 'jshint']
       }
     },
