@@ -10,7 +10,7 @@ module.exports = function(grunt){
     },
 
     jshint: {
-        src: ['app/models/*', 'spec/*']
+        src: ['server.js', 'app/models/*', 'spec/*']
     },
     
     watch: {
@@ -18,7 +18,7 @@ module.exports = function(grunt){
         files: ['spec/*'],
         tasks: ['jasmine_node', 'jshint']
       }
-    },
+    }
   });
 
   grunt.loadNpmTasks('grunt-jasmine-node');

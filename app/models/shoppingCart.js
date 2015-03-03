@@ -16,6 +16,9 @@ ShoppingCart.prototype.removeItem = function(item) {
 };
 
 ShoppingCart.prototype.totalPrice = function() {
+  if (this.items.length === 0) {
+    return 0;
+  }
   return this.sumOfItemPrices() - this.discounts();
 };
 

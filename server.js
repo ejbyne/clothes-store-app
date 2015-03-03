@@ -9,11 +9,11 @@ var shoppingCart = new ShoppingCart();
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(request, response){
-  response.sendFile(__dirname + '/app/views/index.html')
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + '/app/views/index.html');
 });
 
-server.listen(port, function(){
+server.listen(port, function() {
   console.log('Server listening on port ' + port);
 });
 

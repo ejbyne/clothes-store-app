@@ -28,7 +28,7 @@ describe('ShoppingCart', function() {
       .toThrow('Item out of stock');
     });
 
-    it('enables an item to be removed', function() {
+    it('allows an item to be removed', function() {
       shoppingCart.addItem(product1);
       shoppingCart.addItem(product2);
       expect(shoppingCart.items.length).toEqual(2);
@@ -41,7 +41,8 @@ describe('ShoppingCart', function() {
 
   describe('total price', function() {
 
-    it('keeps a running total of the price of the items', function() {
+    it('keeps a running total', function() {
+      expect(shoppingCart.totalPrice()).toEqual(0);
       shoppingCart.addItem(productDB.findById(4));
       expect(shoppingCart.totalPrice()).toEqual(19);
       shoppingCart.addItem(productDB.findById(7));

@@ -4,7 +4,7 @@
   "description": "Shopping website with Node.js and AngularJS",
   "main": "server.js",
   "scripts": {
-    "test": "node_modules/jasmine-node/bin/jasmine-node spec/ --verbose"
+    "test": "grunt"
   },
   "author": "Edward Byne (ejbyne@gmail.com)",
   "license": "ISC",
