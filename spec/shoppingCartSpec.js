@@ -12,47 +12,70 @@ describe('ShoppingCart', function() {
     product2 = Product.findById(2);
   });
 
-  it('starts with an empty shopping cart', function() {
-    expect(shoppingCart.items.length).toEqual(0);
+  describe('adding and removing items', function() {
+
+    it('the shopping cart is empty at the outset', function() {
+      expect(shoppingCart.items.length).toEqual(0);
+    });
+
+    it('allows an item to be added', function() {
+      shoppingCart.addItem(product1);
+      expect(shoppingCart.items.length).toEqual(1);
+    });
+
+    it('does not allow an out-of-stock item to be added', function() {
+      expect(function() { shoppingCart.addItem(Product.findById(5)) })
+      .toThrow('Item out of stock');
+    });
+
+    it('enables an item to be removed', function() {
+      shoppingCart.addItem(product1);
+      shoppingCart.addItem(product2);
+      expect(shoppingCart.items.length).toEqual(2);
+      shoppingCart.removeItem(product1);
+      expect(shoppingCart.items.length).toEqual(1);
+      expect(shoppingCart.items[0]).toBe(product2);
+    });
+
   });
 
-  it('enables an item to be added to the shopping cart', function() {
-    shoppingCart.addItem(product1);
-    expect(shoppingCart.items.length).toEqual(1);
+  describe('total price', function() {
+
+    it('keeps a running total of the price of the items', function() {
+      shoppingCart.addItem(Product.findById(4));
+      expect(shoppingCart.totalPrice()).toEqual(19);
+      shoppingCart.addItem(Product.findById(7));
+      expect(shoppingCart.totalPrice()).toEqual(49);
+    });
+
   });
 
-  it('enables an item to be removed from the shopping cart', function() {
-    shoppingCart.addItem(product1);
-    shoppingCart.addItem(product2);
-    expect(shoppingCart.items.length).toEqual(2);
-    shoppingCart.removeItem(product1);
-    expect(shoppingCart.items.length).toEqual(1);
-    expect(shoppingCart.items[0]).toBe(product2);
-  });
+  describe('applying discounts', function() {
 
-  it('keeps a running total of the price of the items in the shopping card', function() {
-    shoppingCart.addItem(Product.findById(4));
-    expect(shoppingCart.totalPrice()).toEqual(19);
-    shoppingCart.addItem(Product.findById(5));
-    expect(shoppingCart.totalPrice()).toEqual(38);
-  });
+    it('allows a £5 discount if the correct voucher code is entered', function() {
+      shoppingCart.addItem(product2);
+      shoppingCart.applyDiscountVoucher('FIVERDISCOUNT');
+      expect(shoppingCart.totalPrice()).toEqual(37);
+    });
 
-  it('allows a £5 discount if the correct voucher code is entered', function() {
-    shoppingCart.addItem(product2);
-    shoppingCart.applyDiscountVoucher('FIVERDISCOUNT');
-    expect(shoppingCart.totalPrice()).toEqual(37);
-  });
+    it('will raise an error if an incorrect voucher code is entered', function() {
+      shoppingCart.addItem(product2);
+      expect(function() { shoppingCart.applyDiscountVoucher('TENNERDISCOUNT') })
+      .toThrow('Invalid voucher code');
+      expect(shoppingCart.totalPrice()).toEqual(42);
+    });
 
-  it('allows a £10 discount if the total is over £50', function() {
-    shoppingCart.addItem(Product.findById(3));
-    shoppingCart.addItem(Product.findById(4));
-    expect(shoppingCart.totalPrice()).toEqual(43);
-  });
+    it('allows a £10 discount if the total is over £50', function() {
+      shoppingCart.addItem(Product.findById(3));
+      shoppingCart.addItem(Product.findById(4));
+      expect(shoppingCart.totalPrice()).toEqual(43);
+    });
 
-  it('allows a £15 discount if the total is over £75 and the shopping cart' +
-    'includes at least one footwear item', function() {
-    shoppingCart.addItem(product1);
-    expect(shoppingCart.totalPrice()).toEqual(84);
+    it('allows a £15 discount if the total is over £75 and there is a footwear item', function() {
+      shoppingCart.addItem(product1);
+      expect(shoppingCart.totalPrice()).toEqual(84);
+    });
+
   });
 
 });

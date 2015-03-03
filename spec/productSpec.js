@@ -8,14 +8,18 @@ describe('Product', function() {
     Product = new ProductDB();
   });
 
-  it('can retrieve all products', function() {
-    var products = Product.find();
-    expect(Object.keys(products).length).toEqual(13);
-  });
+  describe('finding products', function() {
 
-  it('can find a product by ID', function() {
-    var product = Product.findById(1);
-    expect(product.name).toEqual("Almond Toe Court Shoes, Patent Black");
+    it('can retrieve all products', function() {
+      var products = Product.find();
+      expect(Object.keys(products).length).toEqual(13);
+    });
+
+    it('can find a product by ID', function() {
+      var product = Product.findById(1);
+      expect(product.name).toEqual("Almond Toe Court Shoes, Patent Black");
+    });
+
   });
 
 });

@@ -4,6 +4,9 @@ var ShoppingCart = function() {
 };
 
 ShoppingCart.prototype.addItem = function(item) {
+  if (item.quantity === 0) {
+    throw 'Item out of stock';
+  }
   this.items.push(item);
 };
 
@@ -20,15 +23,16 @@ ShoppingCart.prototype.sumOfItemPrices = function() {
   var prices = this.items.map(function(item) {
     return item.price;
   });
-  return prices.reduce(function(previousValue, currentValue) {
-    return previousValue + currentValue;
+  return prices.reduce(function(previousPrice, currentPrice) {
+    return previousPrice + currentPrice;
   });
 };
 
 ShoppingCart.prototype.applyDiscountVoucher = function(code) {
-  if (code === 'FIVERDISCOUNT') {
-    this.isDiscountVoucher = true;
-  };
+  if (code !== 'FIVERDISCOUNT') {
+    throw 'Invalid voucher code';
+  }
+  this.isDiscountVoucher = true;
 };
 
 ShoppingCart.prototype.discounts = function() {
