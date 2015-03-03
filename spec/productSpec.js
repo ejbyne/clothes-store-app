@@ -1,22 +1,22 @@
 var ProductDB = require('../app/models/productDB.js');
 
-describe('Product', function() {
+describe('ProductDB', function() {
 
-  var Product;
+  var productDB;
 
   beforeEach(function() {
-    Product = new ProductDB();
+    productDB = new ProductDB();
   });
 
   describe('finding products', function() {
 
     it('can retrieve all products', function() {
-      var products = Product.find();
+      var products = productDB.find();
       expect(Object.keys(products).length).toEqual(13);
     });
 
     it('can find a product by ID', function() {
-      var product = Product.findById(1);
+      var product = productDB.findById(1);
       expect(product.name).toEqual("Almond Toe Court Shoes, Patent Black");
     });
 

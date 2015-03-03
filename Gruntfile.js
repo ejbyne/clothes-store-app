@@ -6,11 +6,11 @@ module.exports = function(grunt){
       options: {
         forceExit: true,
       },
-      all: ['spec/*']
+      all: ['spec/']
     },
 
     jshint: {
-        src: []
+        src: ['app/models/*', 'spec/*']
     },
     
     watch: {

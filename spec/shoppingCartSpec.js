@@ -7,9 +7,9 @@ describe('ShoppingCart', function() {
 
   beforeEach(function() {
     shoppingCart = new ShoppingCart();
-    Product = new ProductDB();
-    product1 = Product.findById(1);
-    product2 = Product.findById(2);
+    productDB = new ProductDB();
+    product1 = productDB.findById(1);
+    product2 = productDB.findById(2);
   });
 
   describe('adding and removing items', function() {
@@ -18,13 +18,13 @@ describe('ShoppingCart', function() {
       expect(shoppingCart.items.length).toEqual(0);
     });
 
-    it('allows an item to be added', function() {
+    it('allows an in-stock item to be added', function() {
       shoppingCart.addItem(product1);
       expect(shoppingCart.items.length).toEqual(1);
     });
 
     it('does not allow an out-of-stock item to be added', function() {
-      expect(function() { shoppingCart.addItem(Product.findById(5)) })
+      expect(function() { shoppingCart.addItem(productDB.findById(5)); })
       .toThrow('Item out of stock');
     });
 
@@ -42,9 +42,9 @@ describe('ShoppingCart', function() {
   describe('total price', function() {
 
     it('keeps a running total of the price of the items', function() {
-      shoppingCart.addItem(Product.findById(4));
+      shoppingCart.addItem(productDB.findById(4));
       expect(shoppingCart.totalPrice()).toEqual(19);
-      shoppingCart.addItem(Product.findById(7));
+      shoppingCart.addItem(productDB.findById(7));
       expect(shoppingCart.totalPrice()).toEqual(49);
     });
 
@@ -60,14 +60,14 @@ describe('ShoppingCart', function() {
 
     it('will raise an error if an incorrect voucher code is entered', function() {
       shoppingCart.addItem(product2);
-      expect(function() { shoppingCart.applyDiscountVoucher('TENNERDISCOUNT') })
+      expect(function() { shoppingCart.applyDiscountVoucher('TENNERDISCOUNT'); })
       .toThrow('Invalid voucher code');
       expect(shoppingCart.totalPrice()).toEqual(42);
     });
 
     it('allows a £10 discount if the total is over £50', function() {
-      shoppingCart.addItem(Product.findById(3));
-      shoppingCart.addItem(Product.findById(4));
+      shoppingCart.addItem(productDB.findById(3));
+      shoppingCart.addItem(productDB.findById(4));
       expect(shoppingCart.totalPrice()).toEqual(43);
     });
 
