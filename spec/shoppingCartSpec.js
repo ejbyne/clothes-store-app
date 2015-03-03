@@ -31,16 +31,28 @@ describe('ShoppingCart', function() {
   });
 
   it('keeps a running total of the price of the items in the shopping card', function() {
-    shoppingCart.addItem(product1);
-    expect(shoppingCart.totalPrice()).toEqual(99);
-    shoppingCart.addItem(product2);
-    expect(shoppingCart.totalPrice()).toEqual(141);
+    shoppingCart.addItem(Product.findById(4));
+    expect(shoppingCart.totalPrice()).toEqual(19);
+    shoppingCart.addItem(Product.findById(5));
+    expect(shoppingCart.totalPrice()).toEqual(38);
   });
 
   it('allows a £5 discount if the correct voucher code is entered', function() {
+    shoppingCart.addItem(product2);
+    shoppingCart.applyDiscountVoucher('FIVERDISCOUNT');
+    expect(shoppingCart.totalPrice()).toEqual(37);
+  });
+
+  it('allows a £10 discount if the total is over £50', function() {
+    shoppingCart.addItem(Product.findById(3));
+    shoppingCart.addItem(Product.findById(4));
+    expect(shoppingCart.totalPrice()).toEqual(43);
+  });
+
+  it('allows a £15 discount if the total is over £75 and the shopping cart' +
+    'includes at least one footwear item', function() {
     shoppingCart.addItem(product1);
-    shoppingCart.applyFiverDiscount('FIVERDISCOUNT');
-    expect(shoppingCart.totalPrice()).toEqual(94);
+    expect(shoppingCart.totalPrice()).toEqual(84);
   });
 
 });

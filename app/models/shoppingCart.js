@@ -1,6 +1,6 @@
 var ShoppingCart = function() {
   this.items = [];
-  this.fiverDiscount = false;
+  this.isDiscountVoucher = false;
 };
 
 ShoppingCart.prototype.addItem = function(item) {
@@ -13,8 +13,7 @@ ShoppingCart.prototype.removeItem = function(item) {
 };
 
 ShoppingCart.prototype.totalPrice = function() {
-  var total = this.sumOfItemPrices();
-  return total - this.discounts();
+  return this.sumOfItemPrices() - this.discounts();
 };
 
 ShoppingCart.prototype.sumOfItemPrices = function() {
@@ -26,18 +25,41 @@ ShoppingCart.prototype.sumOfItemPrices = function() {
   });
 };
 
-ShoppingCart.prototype.discounts = function() {
-  var discounts = 0;
-  if (this.fiverDiscount === true) {
-    discounts =+ 5;
-  }
-  return discounts;
+ShoppingCart.prototype.applyDiscountVoucher = function(code) {
+  if (code === 'FIVERDISCOUNT') {
+    this.isDiscountVoucher = true;
+  };
 };
 
-ShoppingCart.prototype.applyFiverDiscount = function(code) {
-  if (code === 'FIVERDISCOUNT') {
-    this.fiverDiscount = true;
-  };
+ShoppingCart.prototype.discounts = function() {
+  return 0 + this.voucherDiscount() + this.spendDiscount();
+};
+
+ShoppingCart.prototype.voucherDiscount = function() {
+  if (this.isDiscountVoucher) {
+    return 5;
+  }
+  return 0;
+};
+
+ShoppingCart.prototype.spendDiscount = function() {
+  if (this.sumOfItemPrices() > 75 && this.isFootwearItem()) {
+    return 15;
+  }
+  else if (this.sumOfItemPrices() > 50) {
+    return 10;
+  }
+  return 0;
+};
+
+ShoppingCart.prototype.isFootwearItem = function() {
+  var footwear = false;
+  this.items.forEach(function(item) {
+    if (item.category === "Men's Footwear" || item.category === "Women's Footwear") {
+      footwear = true;
+    }
+  });
+  return footwear;
 };
 
 module.exports = ShoppingCart;
