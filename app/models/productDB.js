@@ -94,16 +94,20 @@ var ProductDB = function() {
   };
 };
 
-ProductDB.prototype.find = function() {
-  return this.data;
+ProductDB.prototype.find = function(callback) {
+  if (this.data) {    
+    callback(null, this.data);
+  }
+  callback('Unable to find products');
 };
 
-ProductDB.prototype.findById = function(id) {
+ProductDB.prototype.findById = function(id, callback) {
   for (var key in this.data) {
     if (this.data[key]._id === id) {
-      return this.data[key];
+      callback(null, this.data[key]);
     }
   }
+  callback('Unable to find product');
 };
 
 module.exports = ProductDB;

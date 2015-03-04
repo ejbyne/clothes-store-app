@@ -2,12 +2,11 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var port = process.env.PORT || 3000;
-var ProductDB = require('./app/models/productDB.js');
-var ShoppingCart = require('./app/models/shoppingCart.js');
-var productDB = new ProductDB();
-var shoppingCart = new ShoppingCart();
+var apiRouter = require('./app/routes/api')(app, express);
 
 app.use(express.static(__dirname + '/public'));
+
+app.use('/api', apiRouter);
 
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/app/views/index.html');
