@@ -8,7 +8,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/api', apiRouter);
 
-app.get('/', function(request, response) {
+app.get('*', function(request, response) {
   response.sendFile(__dirname + '/app/views/index.html');
 });
 
