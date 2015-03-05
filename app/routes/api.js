@@ -1,7 +1,7 @@
 var ProductDB = require('../models/productDB.js');
 var ShoppingCart = require('../models/shoppingCart.js');
 
-var apiRouter = function(app, express, bodyParser) {
+var apiRouter = function(app, express) {
 
   var productDB = new ProductDB();
   var shoppingCart = new ShoppingCart();
@@ -10,7 +10,7 @@ var apiRouter = function(app, express, bodyParser) {
   apiRouter.route('/products')
 
     .get(function(request, response) {
-      var products = productDB.find(function(error, products) {
+      productDB.find(function(error, products) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
         }
@@ -21,8 +21,7 @@ var apiRouter = function(app, express, bodyParser) {
   apiRouter.route('/products/:id')
 
     .get(function(request, response) {
-      var id = parseInt(request.params.id);
-      var product = productDB.findById(id, function(error, product) {
+      productDB.findById(parseInt(request.params.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
         }
@@ -45,13 +44,32 @@ var apiRouter = function(app, express, bodyParser) {
   apiRouter.route('/cart/add')
 
     .post(function(request, response) {
-      console.log(request.body);
-      var product = productDB.findById(parseInt(request.body.id), function(error, product) {
+      productDB.findById(parseInt(request.body.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
         }
-        shoppingCart.addItem(product, parseInt(request.body.quantity));
-        return response.status(200).send({ success: true, message: 'Item added' });
+        try {
+          shoppingCart.addItem(product, parseInt(request.body.quantity));
+          return response.status(200).send({ success: true, message: 'Item added' });
+        } catch (error) {
+          return response.status(403).send({ success: false, message: error });
+        }
+      });
+    });
+
+  apiRouter.route('/cart/remove')
+
+    .post(function(request, response) {
+      productDB.findById(parseInt(request.body.id), function(error, product) {
+        if (error) {
+          return response.status(403).send({ success: false, message: error });
+        }
+        try {
+          shoppingCart.removeItem(product, parseInt(request.body.quantity));
+          response.status(200).send({ success: true, message: 'Item removed' });
+        } catch (error) {
+          return response.status(403).send({ success: false, message: error });
+        }
       });
     });
 

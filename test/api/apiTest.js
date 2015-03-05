@@ -42,7 +42,7 @@ describe('API testing', function() {
     });
   });
 
-  it('should add an item to the shopping cart' ,function() {
+  it('should add an item to the shopping cart', function() {
     casper.thenOpen(host + '/api/cart/add', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 1 }
@@ -53,6 +53,19 @@ describe('API testing', function() {
         'Patent Black","category":"Women\'s Footwear","price":99,"quantity":1}],' + 
         '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"discounts":15,' +
         '"totalPrice":84}');
+      });
+    });
+  });
+
+  it('should remove an item from the shopping cart', function() {
+    casper.thenOpen(host + '/api/cart/remove', {
+                    method: 'post',
+                    data:   { 'id': 1, 'quantity': 1 }
+    }, function(response) {
+      expect(response.status).to.equal(200);
+      casper.thenOpen(host + '/api/cart', function(response) {
+        expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
+          '"voucherDiscount":0,"spendDiscount":0,"discounts":0,"totalPrice":0}');
       });
     });
   });

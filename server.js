@@ -3,7 +3,7 @@ var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 var port = process.env.PORT || 3000;
-var apiRouter = require('./app/routes/api')(app, express, bodyParser);
+var apiRouter = require('./app/routes/api')(app, express);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
