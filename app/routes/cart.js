@@ -1,35 +1,8 @@
-var ProductDB = require('../models/productDB.js');
-var ShoppingCart = require('../models/shoppingCart.js');
+module.exports = function(app, express, productDB, shoppingCart) {
 
-var apiRouter = function(app, express) {
+  var cartRoutes = express.Router();
 
-  var productDB = new ProductDB();
-  var shoppingCart = new ShoppingCart();
-  var apiRouter = express.Router();
-
-  apiRouter.route('/products')
-
-    .get(function(request, response) {
-      productDB.find(function(error, products) {
-        if (error) {
-          return response.status(403).send({ success: false, message: error });
-        }
-        response.json({ products: products });
-      });
-    });
-
-  apiRouter.route('/products/:id')
-
-    .get(function(request, response) {
-      productDB.findById(parseInt(request.params.id), function(error, product) {
-        if (error) {
-          return response.status(403).send({ success: false, message: error });
-        }
-        response.json({ product: product });
-      });
-    });
-
-  apiRouter.route('/cart')
+  cartRoutes.route('/')
 
     .get(function(request, response) {
       response.json({ items:           shoppingCart.items,
@@ -41,7 +14,7 @@ var apiRouter = function(app, express) {
                     });
     });
 
-  apiRouter.route('/cart/add')
+  cartRoutes.route('/add')
 
     .post(function(request, response) {
       productDB.findById(parseInt(request.body.id), function(error, product) {
@@ -57,7 +30,7 @@ var apiRouter = function(app, express) {
       });
     });
 
-  apiRouter.route('/cart/remove')
+  cartRoutes.route('/remove')
 
     .post(function(request, response) {
       productDB.findById(parseInt(request.body.id), function(error, product) {
@@ -73,7 +46,7 @@ var apiRouter = function(app, express) {
       });
     });
 
-  apiRouter.route('/cart/voucher')
+  cartRoutes.route('/voucher')
 
     .post(function(request, response) {
       try {
@@ -84,8 +57,6 @@ var apiRouter = function(app, express) {
       }
     });
 
-  return apiRouter;
+  return cartRoutes;
 
 };
-
-module.exports = apiRouter;

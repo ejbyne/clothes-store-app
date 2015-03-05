@@ -3,13 +3,19 @@ var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 var port = process.env.PORT || 3000;
-var apiRouter = require('./app/routes/api')(app, express);
+var ProductDB = require('./app/models/productDB');
+var ShoppingCart = require('./app/models/shoppingCart');
+var productDB = new ProductDB();
+var shoppingCart = new ShoppingCart();
+var productRoutes = require('./app/routes/product')(app, express, productDB);
+var cartRoutes = require('./app/routes/cart')(app, express, productDB, shoppingCart);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
-app.use('/api', apiRouter);
+app.use('/products', productRoutes);
+app.use('/cart', cartRoutes);
 
 app.get('*', function(request, response) {
   response.sendFile(__dirname + '/app/views/index.html');
