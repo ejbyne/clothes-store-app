@@ -56,6 +56,12 @@ describe('ShoppingCart', function() {
       expect(shoppingCart.items.length).toEqual(0);
     });
 
+    it('does not allow an item to be removed if the quantity is invalid', function() {
+      shoppingCart.addItem(product1, 1);
+      expect(function() { shoppingCart.removeItem(productDB.findById(1, server.callback), 2); })
+      .toThrow('Invalid quantity');      
+    });
+
   });
 
   describe('total price', function() {

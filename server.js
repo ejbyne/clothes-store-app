@@ -7,14 +7,14 @@ var ProductDB = require('./app/models/productDB');
 var ShoppingCart = require('./app/models/shoppingCart');
 var productDB = new ProductDB();
 var shoppingCart = new ShoppingCart();
-var productRoutes = require('./app/routes/product')(app, express, productDB);
+var productsRoutes = require('./app/routes/products')(app, express, productDB);
 var cartRoutes = require('./app/routes/cart')(app, express, productDB, shoppingCart);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
-app.use('/products', productRoutes);
+app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
 
 app.get('*', function(request, response) {

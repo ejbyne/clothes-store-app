@@ -6,7 +6,7 @@ describe('API tests', function() {
     casper.start(host);
   });
 
-  it('will retrieve all of the products in the database', function() {
+  it('can retrieve all of the products in the database', function() {
     casper.thenOpen(host + '/products', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -17,7 +17,7 @@ describe('API tests', function() {
     });
   });
 
-  it('will retrieve a specific product by specifying ID in URL parameters', function() {
+  it('can retrieve a specific product by specifying the ID in the URL parameters', function() {
     casper.thenOpen(host + '/products/2', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -26,14 +26,14 @@ describe('API tests', function() {
     });
   });
 
-  it('will provide an error message if the product cannot be found', function() {
+  it('will provide an error message if a specified product ID cannot be found', function() {
     casper.thenOpen(host + '/products/14', function(response) {
       expect(response.status).to.equal(403);
       expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
     });
   });
 
-  it('will retrieve the contents of the shopping cart', function() {
+  it('can retrieve the contents of the shopping cart', function() {
     casper.thenOpen(host + '/cart', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -42,7 +42,7 @@ describe('API tests', function() {
     });
   });
 
-  it('will raise an error when adding an item to the cart if there is insufficient quantity', function() {
+  it('will raise an error when adding an item to the cart if there is insufficient stock', function() {
     casper.thenOpen(host + '/cart/add', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 7 }
@@ -52,7 +52,7 @@ describe('API tests', function() {
     });
   });
 
-  it('will add an item to the cart if there is sufficient quantity', function() {
+  it('can add an item to the cart if there is sufficient stock', function() {
     casper.thenOpen(host + '/cart/add', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 1 }
@@ -80,7 +80,7 @@ describe('API tests', function() {
     });
   });
 
-  it('will remove an item from the shopping cart if the quantity is valid', function() {
+  it('can remove an item from the shopping cart if the quantity is valid', function() {
     casper.thenOpen(host + '/cart/remove', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 1 }

@@ -1,8 +1,8 @@
 module.exports = function(app, express, productDB) {
 
-  var productRoutes = express.Router();
+  var productsRoutes = express.Router();
 
-  productRoutes.route('/')
+  productsRoutes.route('/')
 
     .get(function(request, response) {
       productDB.find(function(error, products) {
@@ -13,7 +13,7 @@ module.exports = function(app, express, productDB) {
       });
     });
 
-  productRoutes.route('/:id')
+  productsRoutes.route('/:id')
 
     .get(function(request, response) {
       productDB.findById(parseInt(request.params.id), function(error, product) {
@@ -24,6 +24,6 @@ module.exports = function(app, express, productDB) {
       });
     });
 
-  return productRoutes;
+  return productsRoutes;
 
 };
