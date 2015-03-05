@@ -6,7 +6,7 @@ describe('API tests', function() {
     casper.start(host);
   });
 
-  it('should retrieve all of the products in the database', function() {
+  it('will retrieve all of the products in the database', function() {
     casper.thenOpen(host + '/products', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -17,7 +17,7 @@ describe('API tests', function() {
     });
   });
 
-  it('should retrieve a specific product by specifying ID in URL parameters', function() {
+  it('will retrieve a specific product by specifying ID in URL parameters', function() {
     casper.thenOpen(host + '/products/2', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -26,14 +26,14 @@ describe('API tests', function() {
     });
   });
 
-  it('should provide an error message if the product cannot be found', function() {
+  it('will provide an error message if the product cannot be found', function() {
     casper.thenOpen(host + '/products/14', function(response) {
       expect(response.status).to.equal(403);
       expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
     });
   });
 
-  it('should retrieve the contents of the shopping cart', function() {
+  it('will retrieve the contents of the shopping cart', function() {
     casper.thenOpen(host + '/cart', function(response) {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
@@ -42,7 +42,17 @@ describe('API tests', function() {
     });
   });
 
-  it('should add an item to the shopping cart', function() {
+  it('will raise an error when adding an item to the cart if there is insufficient quantity', function() {
+    casper.thenOpen(host + '/cart/add', {
+                    method: 'post',
+                    data:   { 'id': 1, 'quantity': 7 }
+    }, function(response) {
+      expect(response.status).to.equal(403);
+      expect('body').to.have.text('{"success":false,"message":"Insufficient stock"}');
+    });
+  });
+
+  it('will add an item to the cart if there is sufficient quantity', function() {
     casper.thenOpen(host + '/cart/add', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 1 }
@@ -60,17 +70,17 @@ describe('API tests', function() {
     });
   });
 
-  it('will raise an error if there is insufficient quantity to add to the cart', function() {
-    casper.thenOpen(host + '/cart/add', {
+  it('will raise an error when removing an item from the cart if the quantity is invalid', function() {
+    casper.thenOpen(host + '/cart/remove', {
                     method: 'post',
-                    data:   { 'id': 1, 'quantity': 7 }
+                    data:   { 'id': 1, 'quantity': 2 }
     }, function(response) {
       expect(response.status).to.equal(403);
-      expect('body').to.have.text('{"success":false,"message":"Insufficient stock"}');
+      expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
     });
   });
 
-  it('should remove an item from the shopping cart', function() {
+  it('will remove an item from the shopping cart if the quantity is valid', function() {
     casper.thenOpen(host + '/cart/remove', {
                     method: 'post',
                     data:   { 'id': 1, 'quantity': 1 }
@@ -86,30 +96,22 @@ describe('API tests', function() {
     });
   });
 
-  it('will raise an error if an invalid quantity is given to remove from the cart', function() {
-    casper.thenOpen(host + '/cart/add', {
-                    method: 'post',
-                    data:   { 'id': 1, 'quantity': 1 }
-    }, function(response) {
-      casper.thenOpen(host + '/cart/remove', {
-                      method: 'post',
-                      data:   { 'id': 1, 'quantity': 2 }
-      }, function(response) {
-        expect(response.status).to.equal(403);
-        expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
-        casper.thenOpen(host + '/cart/remove', {
-                      method: 'post',
-                      data:   { 'id': 1, 'quantity': 1 }
-        });
-      });
-    });
-  });
-
-  it('should apply a voucher discount if the correct code is given', function() {
+  it('will raise an error if an invalid discount voucher code is given', function() {
     casper.thenOpen(host + '/cart/add', {
                     method: 'post',
                     data:   { 'id': 2, 'quantity': 1 }
     }, function(response) {
+      casper.thenOpen(host + '/cart/voucher', {
+                      method: 'post',
+                      data:   { 'code': 'TENNERDISCOUNT' }
+      }, function(response) {
+        expect(response.status).to.equal(403);
+        expect('body').to.contain.text('{"success":false,"message":"Invalid voucher code"}');
+      });
+    });
+  });
+
+  it('will apply a voucher discount if the correct code is given', function() {
       casper.thenOpen(host + '/cart/voucher', {
                       method: 'post',
                       data:   { 'code': 'FIVERDISCOUNT' }
@@ -122,7 +124,6 @@ describe('API tests', function() {
             '"totalPrice":37}');
         });
       });
-    });
   });
 
 });
