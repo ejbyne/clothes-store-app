@@ -49,11 +49,24 @@ describe('API tests', function() {
     }, function(response) {
       expect(response.status).to.equal(200);
       casper.thenOpen(host + '/cart', function(response) {
-      expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
-        'Patent Black","category":"Women\'s Footwear","price":99,"quantity":1}],' + 
-        '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
-        '"totalPrice":84}');
+        expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
+          'Patent Black","category":"Women\'s Footwear","price":99,"quantity":1}],' + 
+          '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
+          '"totalPrice":84}');
+        casper.thenOpen(host + '/products/1', function(response) {
+          expect('body').to.contain.text('"quantity":6');
+        });
       });
+    });
+  });
+
+  it('will raise an error if there is insufficient quantity to add to the cart', function() {
+    casper.thenOpen(host + '/cart/add', {
+                    method: 'post',
+                    data:   { 'id': 1, 'quantity': 7 }
+    }, function(response) {
+      expect(response.status).to.equal(403);
+      expect('body').to.have.text('{"success":false,"message":"Insufficient stock"}');
     });
   });
 
@@ -66,6 +79,28 @@ describe('API tests', function() {
       casper.thenOpen(host + '/cart', function(response) {
         expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
           '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}');
+        casper.thenOpen(host + '/products/1', function(response) {
+          expect('body').to.contain.text('"quantity":5');
+        });
+      });
+    });
+  });
+
+  it('will raise an error if an invalid quantity is given to remove from the cart', function() {
+    casper.thenOpen(host + '/cart/add', {
+                    method: 'post',
+                    data:   { 'id': 1, 'quantity': 1 }
+    }, function(response) {
+      casper.thenOpen(host + '/cart/remove', {
+                      method: 'post',
+                      data:   { 'id': 1, 'quantity': 2 }
+      }, function(response) {
+        expect(response.status).to.equal(403);
+        expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
+        casper.thenOpen(host + '/cart/remove', {
+                      method: 'post',
+                      data:   { 'id': 1, 'quantity': 1 }
+        });
       });
     });
   });
