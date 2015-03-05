@@ -17,4 +17,27 @@ describe('API testing', function() {
     });
   });
 
+  it('should retrieve a specific product by specifying ID in URL parameters', function() {
+    casper.thenOpen(host + '/api/products/2', function(response) {
+      expect(response.status).to.equal(200);
+      expect(response.contentType).to.equal('application/json; charset=utf-8');
+      expect('body').to.have.text('{"product":{"_id":2,"name":"Suede Shoes, Blue"' +
+        ',"category":"Women\'s Footwear","price":42,"quantity":4}}');
+    });
+  });
+
+  it('should provide an error message if the product cannot be found', function() {
+    casper.thenOpen(host + '/api/products/14', function(response) {
+      expect(response.status).to.equal(403);
+      expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
+    });
+  });
+
+  it('should retrieve the contents of the shopping cart', function() {
+    casper.thenOpen(host + '/api/cart', function(response) {
+      expect(response.status).to.equal(200);
+      expect('body').to.have.text('{"cart":[]}')
+    });
+  });
+
 });
