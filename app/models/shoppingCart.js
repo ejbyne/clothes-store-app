@@ -33,11 +33,18 @@ ShoppingCart.prototype.findItem = function(item) {
   })[0];
 };
 
+ShoppingCart.prototype.applyDiscountVoucher = function(code) {
+  if (code !== 'FIVERDISCOUNT') {
+    throw 'Invalid voucher code';
+  }
+  this.isDiscountVoucher = true;
+};
+
 ShoppingCart.prototype.totalPrice = function() {
   if (this.items.length === 0) {
     return 0;
   }
-  return this.sumOfItemPrices() - this.discounts();
+  return this.sumOfItemPrices() - this.totalDiscounts();
 };
 
 ShoppingCart.prototype.sumOfItemPrices = function() {
@@ -52,14 +59,7 @@ ShoppingCart.prototype.sumOfItemPrices = function() {
   });
 };
 
-ShoppingCart.prototype.applyDiscountVoucher = function(code) {
-  if (code !== 'FIVERDISCOUNT') {
-    throw 'Invalid voucher code';
-  }
-  this.isDiscountVoucher = true;
-};
-
-ShoppingCart.prototype.discounts = function() {
+ShoppingCart.prototype.totalDiscounts = function() {
   return 0 + this.voucherDiscount() + this.spendDiscount();
 };
 

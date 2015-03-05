@@ -36,7 +36,7 @@ var apiRouter = function(app, express) {
                       sumOfItemPrices: shoppingCart.sumOfItemPrices(),
                       voucherDiscount: shoppingCart.voucherDiscount(),
                       spendDiscount:   shoppingCart.spendDiscount(),
-                      discounts:       shoppingCart.discounts(),
+                      totalDiscounts:  shoppingCart.totalDiscounts(),
                       totalPrice:      shoppingCart.totalPrice()
                     });
     });
@@ -71,6 +71,17 @@ var apiRouter = function(app, express) {
           return response.status(403).send({ success: false, message: error });
         }
       });
+    });
+
+  apiRouter.route('/cart/voucher')
+
+    .post(function(request, response) {
+      try {
+        shoppingCart.applyDiscountVoucher(request.body.code);
+        response.status(200).send({ success: true, message: 'Discount applied' });
+      } catch(error) {
+        return response.status(403).send({ success: false, message: error });
+      }
     });
 
   return apiRouter;

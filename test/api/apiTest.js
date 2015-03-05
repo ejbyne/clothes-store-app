@@ -38,7 +38,7 @@ describe('API testing', function() {
       expect(response.status).to.equal(200);
       expect(response.contentType).to.equal('application/json; charset=utf-8');
       expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
-        '"voucherDiscount":0,"spendDiscount":0,"discounts":0,"totalPrice":0}');
+        '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}');
     });
   });
 
@@ -51,7 +51,7 @@ describe('API testing', function() {
       casper.thenOpen(host + '/api/cart', function(response) {
       expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
         'Patent Black","category":"Women\'s Footwear","price":99,"quantity":1}],' + 
-        '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"discounts":15,' +
+        '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
         '"totalPrice":84}');
       });
     });
@@ -65,7 +65,27 @@ describe('API testing', function() {
       expect(response.status).to.equal(200);
       casper.thenOpen(host + '/api/cart', function(response) {
         expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
-          '"voucherDiscount":0,"spendDiscount":0,"discounts":0,"totalPrice":0}');
+          '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}');
+      });
+    });
+  });
+
+  it('should apply a voucher discount if the correct code is given', function() {
+    casper.thenOpen(host + '/api/cart/add', {
+                    method: 'post',
+                    data:   { 'id': 2, 'quantity': 1 }
+    }, function(response) {
+      casper.thenOpen(host + '/api/cart/voucher', {
+                      method: 'post',
+                      data:   { 'code': 'FIVERDISCOUNT' }
+      }, function(response) {
+        expect(response.status).to.equal(200);
+        casper.thenOpen(host + '/api/cart', function(response) {
+          expect('body').to.have.text('{"items":[{"id":2,"name":"Suede Shoes, Blue",' +
+            '"category":"Women\'s Footwear","price":42,"quantity":1}],' + 
+            '"sumOfItemPrices":42,"voucherDiscount":5,"spendDiscount":0,"totalDiscounts":5,' +
+            '"totalPrice":37}');
+        });
       });
     });
   });
