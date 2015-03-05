@@ -23,7 +23,7 @@ module.exports = function(grunt){
     
     watch: {
       scripts: {
-        files: ['spec/*', 'test/**/*'],
+        files: ['spec/*', 'test/**/*', 'app/**/*'],
         tasks: ['express:test', 'jasmine_node', 'jshint', 'mocha_casperjs']
       }
     },
@@ -35,7 +35,7 @@ module.exports = function(grunt){
         }
       }
     }
-    
+
   });
 
   grunt.loadNpmTasks('grunt-jasmine-node');

@@ -3,16 +3,34 @@ var ShoppingCart = function() {
   this.isDiscountVoucher = false;
 };
 
-ShoppingCart.prototype.addItem = function(item) {
-  if (item.quantity === 0) {
-    throw 'Item out of stock';
+ShoppingCart.prototype.addItem = function(item, quantity) {
+  var existingItem = this.findItem(item);
+  if (item.quantity < quantity) {
+    throw 'Insufficient stock';
+  } else if (existingItem) {
+    existingItem.quantity += quantity;
+  } else {
+    this.items.push({ id: item._id, name: item.name, category: item.category,
+                      price: item.price, quantity: quantity });
   }
-  this.items.push(item);
 };
 
-ShoppingCart.prototype.removeItem = function(item) {
-  var index = this.items.indexOf(item);
-  this.items.splice(index, 1);
+ShoppingCart.prototype.removeItem = function(item, quantity) {
+  var existingItem = this.findItem(item);
+  if (quantity > existingItem.quantity) {
+    throw 'Invalid quantity';
+  } else if (quantity < existingItem.quantity) {
+    existingItem.quantity -= quantity;
+  }
+  else {
+    this.items.splice(existingItem, 1);
+  }
+};
+
+ShoppingCart.prototype.findItem = function(item) {
+  return this.items.filter(function(existingItem) {
+    return existingItem.id === item._id;
+  })[0];
 };
 
 ShoppingCart.prototype.totalPrice = function() {

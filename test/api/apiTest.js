@@ -36,8 +36,24 @@ describe('API testing', function() {
   it('should retrieve the contents of the shopping cart', function() {
     casper.thenOpen(host + '/api/cart', function(response) {
       expect(response.status).to.equal(200);
-      expect('body').to.have.text('{"cart":[]}')
+      expect(response.contentType).to.equal('application/json; charset=utf-8');
+      expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
+        '"voucherDiscount":0,"spendDiscount":0,"discounts":0,"totalPrice":0}');
     });
   });
+
+  // it('should add an item to the shopping cart' ,function() {
+  //   casper.thenOpen(host + '/api/cart/add', {
+  //                   method: 'post',
+  //                   data:   {'id': 1, 'quantity': 1}
+  //   }, function(response) {
+  //     expect(response.status).to.equal(200);
+  //     casper.thenOpen(host + '/api/cart', function(response) {
+  //     expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
+  //       '"voucherDiscount":0,"spendDiscount":0,"discounts":0,"totalPrice":0}');
+  //   });
+
+  //   });
+  // });
 
 });

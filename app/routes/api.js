@@ -33,8 +33,13 @@ var apiRouter = function(app, express) {
   apiRouter.route('/cart')
 
     .get(function(request, response) {
-      var cart = shoppingCart.items;
-      response.json({ cart: cart });
+      response.json({ items: shoppingCart.items,
+                      sumOfItemPrices: 0,
+                      voucherDiscount: 0,
+                      spendDiscount:   0,
+                      discounts:       0,
+                      totalPrice:      0
+                    });
     });
 
   return apiRouter;
