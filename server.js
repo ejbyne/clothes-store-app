@@ -1,9 +1,12 @@
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
+var bodyParser = require('body-parser');
 var port = process.env.PORT || 3000;
-var apiRouter = require('./app/routes/api')(app, express);
+var apiRouter = require('./app/routes/api')(app, express, bodyParser);
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 
 app.use('/api', apiRouter);

@@ -41,6 +41,9 @@ ShoppingCart.prototype.totalPrice = function() {
 };
 
 ShoppingCart.prototype.sumOfItemPrices = function() {
+  if (this.items.length === 0) {
+    return 0;
+  }
   var prices = this.items.map(function(item) {
     return item.price;
   });

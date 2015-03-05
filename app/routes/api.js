@@ -1,7 +1,7 @@
 var ProductDB = require('../models/productDB.js');
 var ShoppingCart = require('../models/shoppingCart.js');
 
-var apiRouter = function(app, express) {
+var apiRouter = function(app, express, bodyParser) {
 
   var productDB = new ProductDB();
   var shoppingCart = new ShoppingCart();
@@ -33,13 +33,26 @@ var apiRouter = function(app, express) {
   apiRouter.route('/cart')
 
     .get(function(request, response) {
-      response.json({ items: shoppingCart.items,
-                      sumOfItemPrices: 0,
-                      voucherDiscount: 0,
-                      spendDiscount:   0,
-                      discounts:       0,
-                      totalPrice:      0
+      response.json({ items:           shoppingCart.items,
+                      sumOfItemPrices: shoppingCart.sumOfItemPrices(),
+                      voucherDiscount: shoppingCart.voucherDiscount(),
+                      spendDiscount:   shoppingCart.spendDiscount(),
+                      discounts:       shoppingCart.discounts(),
+                      totalPrice:      shoppingCart.totalPrice()
                     });
+    });
+
+  apiRouter.route('/cart/add')
+
+    .post(function(request, response) {
+      console.log(request.body);
+      var product = productDB.findById(parseInt(request.body.id), function(error, product) {
+        if (error) {
+          return response.status(403).send({ success: false, message: error });
+        }
+        shoppingCart.addItem(product, parseInt(request.body.quantity));
+        return response.status(200).send({ success: true, message: 'Item added' });
+      });
     });
 
   return apiRouter;
