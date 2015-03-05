@@ -8,8 +8,9 @@ describe('ShoppingCart', function() {
   beforeEach(function() {
     shoppingCart = new ShoppingCart();
     productDB = new ProductDB();
-    product1 = productDB.findById(1);
-    product2 = productDB.findById(2);
+    server = jasmine.createSpyObj('server', ['callback']);
+    product1 = productDB.findById(1, server.callback);
+    product2 = productDB.findById(2, server.callback);
   });
 
   describe('adding and removing items', function() {
@@ -24,7 +25,7 @@ describe('ShoppingCart', function() {
     });
 
     it('does not allow an out-of-stock item to be added', function() {
-      expect(function() { shoppingCart.addItem(productDB.findById(5)); })
+      expect(function() { shoppingCart.addItem(productDB.findById(5, server.callback)); })
       .toThrow('Item out of stock');
     });
 
@@ -43,9 +44,9 @@ describe('ShoppingCart', function() {
 
     it('keeps a running total', function() {
       expect(shoppingCart.totalPrice()).toEqual(0);
-      shoppingCart.addItem(productDB.findById(4));
+      shoppingCart.addItem(productDB.findById(4, server.callback));
       expect(shoppingCart.totalPrice()).toEqual(19);
-      shoppingCart.addItem(productDB.findById(7));
+      shoppingCart.addItem(productDB.findById(7, server.callback));
       expect(shoppingCart.totalPrice()).toEqual(49);
     });
 
@@ -67,8 +68,8 @@ describe('ShoppingCart', function() {
     });
 
     it('allows a £10 discount if the total is over £50', function() {
-      shoppingCart.addItem(productDB.findById(3));
-      shoppingCart.addItem(productDB.findById(4));
+      shoppingCart.addItem(productDB.findById(3, server.callback));
+      shoppingCart.addItem(productDB.findById(4, server.callback));
       expect(shoppingCart.totalPrice()).toEqual(43);
     });
 

@@ -97,6 +97,7 @@ var ProductDB = function() {
 ProductDB.prototype.find = function(callback) {
   if (this.data) {
     callback(null, this.data);
+    return this.data;
   }
   callback('Unable to find products');
 };
@@ -105,6 +106,7 @@ ProductDB.prototype.findById = function(id, callback) {
   for (var key in this.data) {
     if (this.data[key]._id === id) {
       callback(null, this.data[key]);
+      return this.data[key];
     }
   }
   callback('Unable to find product');
