@@ -5,13 +5,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
   cartRoutes.route('/')
 
     .get(function(request, response) {
-      response.json({ items:           shoppingCart.items,
-                      sumOfItemPrices: shoppingCart.sumOfItemPrices(),
-                      voucherDiscount: shoppingCart.voucherDiscount(),
-                      spendDiscount:   shoppingCart.spendDiscount(),
-                      totalDiscounts:  shoppingCart.totalDiscounts(),
-                      totalPrice:      shoppingCart.totalPrice()
-                    });
+      response.json(shoppingCart.cartData());
     });
 
   cartRoutes.route('/add')

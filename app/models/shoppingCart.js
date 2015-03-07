@@ -10,7 +10,7 @@ ShoppingCart.prototype.addItem = function(item, quantity) {
     this.findExistingItem(item).quantity += quantity;
   } else {
     this.items.push({ id: item.id, name: item.name, category: item.category,
-                      price: item.price, quantity: quantity });
+                      price: item.price * quantity, quantity: quantity });
   }
 };
 
@@ -84,6 +84,17 @@ ShoppingCart.prototype.isFootwearItem = function() {
   return this.items.filter(function(item) {
     return item.category === "Men's Footwear" || item.category === "Women's Footwear";
   })[0];
+};
+
+ShoppingCart.prototype.cartData = function() {
+  return {
+    items:           this.items,
+    sumOfItemPrices: this.sumOfItemPrices(),
+    voucherDiscount: this.voucherDiscount(),
+    spendDiscount:   this.spendDiscount(),
+    totalDiscounts:  this.totalDiscounts(),
+    totalPrice:      this.totalPrice()
+  };
 };
 
 module.exports = ShoppingCart;

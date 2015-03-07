@@ -74,7 +74,12 @@ describe('ShoppingCart', function() {
 
   });
 
-  describe('total price', function() {
+  describe('prices', function() {
+
+    it('amends the item price according to the quantity', function() {
+      shoppingCart.addItem(product1, 2);
+      expect(shoppingCart.items[0].price).toBe(198);
+    });
 
     it('keeps a running total', function() {
       expect(shoppingCart.totalPrice()).toBe(0);
