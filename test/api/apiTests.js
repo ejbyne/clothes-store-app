@@ -12,9 +12,9 @@ describe('API tests', function() {
       casper.thenOpen(host + '/products', function(response) {
         expect(response.status).to.equal(200);
         expect(response.contentType).to.equal('application/json; charset=utf-8');
-        expect('body').to.contain.text('"product1":{"_id":1,"name":"Almond Toe Court ' +
+        expect('body').to.contain.text('{"id":1,"name":"Almond Toe Court ' +
           'Shoes, Patent Black","category":"Women\'s Footwear","price":99,"quantity":5}');
-        expect('body').to.contain.text('"product13":{"_id":13,"name":"Mid Twist Cut-Out ' +
+        expect('body').to.contain.text('{"id":13,"name":"Mid Twist Cut-Out ' +
           'Dress, Pink","category":"Women\'s Formalwear","price":540,"quantity":5}');
       });
     });
@@ -23,17 +23,17 @@ describe('API tests', function() {
       casper.thenOpen(host + '/products/2', function(response) {
         expect(response.status).to.equal(200);
         expect(response.contentType).to.equal('application/json; charset=utf-8');
-        expect('body').to.have.text('{"product":{"_id":2,"name":"Suede Shoes, Blue"' +
+        expect('body').to.have.text('{"product":{"id":2,"name":"Suede Shoes, Blue"' +
           ',"category":"Women\'s Footwear","price":42,"quantity":4}}');
       });
     });
 
-    it('will provide an error message if a specified product ID cannot be found', function() {
-      casper.thenOpen(host + '/products/14', function(response) {
-        expect(response.status).to.equal(403);
-        expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
-      });
-    });
+    // it('will provide an error message if a specified product ID cannot be found', function() {
+    //   casper.thenOpen(host + '/products/14', function(response) {
+    //     expect(response.status).to.equal(403);
+    //     expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
+    //   });
+    // });
 
   });
 
@@ -70,23 +70,23 @@ describe('API tests', function() {
             '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
             '"totalPrice":84}');
           casper.thenOpen(host + '/products/1', function(response) {
-            expect('body').to.contain.text('"quantity":6');
+            expect('body').to.contain.text('"quantity":4');
           });
         });
       });
     });
 
-    it('will raise an error when removing an item from the cart if the quantity is invalid', function() {
-      casper.thenOpen(host + '/cart/remove', {
-                      method: 'post',
-                      data:   { 'id': 1, 'quantity': 2 }
-      }, function(response) {
-        expect(response.status).to.equal(403);
-        expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
-      });
-    });
+    // it('will raise an error when removing an item from the cart if the quantity is invalid', function() {
+    //   casper.thenOpen(host + '/cart/remove', {
+    //                   method: 'post',
+    //                   data:   { 'id': 1, 'quantity': 2 }
+    //   }, function(response) {
+    //     expect(response.status).to.equal(403);
+    //     expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
+    //   });
+    // });
 
-    it('can remove an item from the cart if the quantity is valid', function() {
+    it('can remove an item from the cart', function() {
       casper.thenOpen(host + '/cart/remove', {
                       method: 'post',
                       data:   { 'id': 1, 'quantity': 1 }

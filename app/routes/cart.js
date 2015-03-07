@@ -23,7 +23,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
         }
         try {
           shoppingCart.addItem(product, parseInt(request.body.quantity));
-          product.quantity += parseInt(request.body.quantity);
+          product.quantity -= parseInt(request.body.quantity);
           response.status(200).send({ success: true, message: 'Item added' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });
@@ -39,8 +39,8 @@ module.exports = function(app, express, productDB, shoppingCart) {
           return response.status(403).send({ success: false, message: error });
         }
         try {
-          shoppingCart.removeItem(product, parseInt(request.body.quantity));
-          product.quantity -= parseInt(request.body.quantity);
+          shoppingCart.removeItem(product);
+          product.quantity += parseInt(request.body.quantity);
           response.status(200).send({ success: true, message: 'Item removed' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });

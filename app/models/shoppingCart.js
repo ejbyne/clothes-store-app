@@ -6,28 +6,31 @@ var ShoppingCart = function() {
 ShoppingCart.prototype.addItem = function(item, quantity) {
   if (item.quantity < quantity) {
     throw 'Insufficient stock';
-  } else if (this.findItem(item)) {
-    this.findItem(item).quantity += quantity;
+  } else if (this.findExistingItem(item)) {
+    this.findExistingItem(item).quantity += quantity;
   } else {
-    this.items.push({ id: item._id, name: item.name, category: item.category,
+    this.items.push({ id: item.id, name: item.name, category: item.category,
                       price: item.price, quantity: quantity });
   }
 };
 
-ShoppingCart.prototype.removeItem = function(item, quantity) {
-  if (quantity > this.findItem(item).quantity) {
-    throw 'Invalid quantity';
-  } else if (quantity < this.findItem(item).quantity) {
-    this.findItem(item).quantity -= quantity;
-  }
-  else {
-    this.items.splice(this.findItem(item), 1);
+ShoppingCart.prototype.removeItem = function(item) {
+  var existingItem = this.findExistingItem(item);
+  this.items.splice(existingItem, 1);
+};
+
+ShoppingCart.prototype.amendItemQuantity = function(item, quantity) {
+  var existingItem = this.findExistingItem(item);
+  if (item.quantity < (quantity - existingItem.quantity)) {
+    throw 'Insufficient stock';
+  } else {
+    existingItem.quantity = quantity;
   }
 };
 
-ShoppingCart.prototype.findItem = function(item) {
+ShoppingCart.prototype.findExistingItem = function(item) {
   return this.items.filter(function(existingItem) {
-    return existingItem.id === item._id;
+    return existingItem.id === item.id;
   })[0];
 };
 
