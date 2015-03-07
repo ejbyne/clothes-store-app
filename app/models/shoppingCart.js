@@ -4,11 +4,10 @@ var ShoppingCart = function() {
 };
 
 ShoppingCart.prototype.addItem = function(item, quantity) {
-  var existingItem = this.findItem(item);
   if (item.quantity < quantity) {
     throw 'Insufficient stock';
-  } else if (existingItem) {
-    existingItem.quantity += quantity;
+  } else if (this.findItem(item)) {
+    this.findItem(item).quantity += quantity;
   } else {
     this.items.push({ id: item._id, name: item.name, category: item.category,
                       price: item.price, quantity: quantity });
@@ -16,14 +15,13 @@ ShoppingCart.prototype.addItem = function(item, quantity) {
 };
 
 ShoppingCart.prototype.removeItem = function(item, quantity) {
-  var existingItem = this.findItem(item);
-  if (quantity > existingItem.quantity) {
+  if (quantity > this.findItem(item).quantity) {
     throw 'Invalid quantity';
-  } else if (quantity < existingItem.quantity) {
-    existingItem.quantity -= quantity;
+  } else if (quantity < this.findItem(item).quantity) {
+    this.findItem(item).quantity -= quantity;
   }
   else {
-    this.items.splice(existingItem, 1);
+    this.items.splice(this.findItem(item), 1);
   }
 };
 
@@ -51,11 +49,10 @@ ShoppingCart.prototype.sumOfItemPrices = function() {
   if (this.items.length === 0) {
     return 0;
   }
-  var prices = this.items.map(function(item) {
+  return this.items.map(function(item) {
     return item.price;
-  });
-  return prices.reduce(function(previousPrice, currentPrice) {
-    return previousPrice + currentPrice;
+  }).reduce(function(sum, price) {
+    return sum + price;
   });
 };
 
@@ -81,13 +78,9 @@ ShoppingCart.prototype.spendDiscount = function() {
 };
 
 ShoppingCart.prototype.isFootwearItem = function() {
-  var footwear = false;
-  this.items.forEach(function(item) {
-    if (item.category === "Men's Footwear" || item.category === "Women's Footwear") {
-      footwear = true;
-    }
-  });
-  return footwear;
+  return this.items.filter(function(item) {
+    return item.category === "Men's Footwear" || item.category === "Women's Footwear";
+  })[0];
 };
 
 module.exports = ShoppingCart;

@@ -112,8 +112,4 @@ ProductDB.prototype.findById = function(id, callback) {
   callback('Unable to find product');
 };
 
-ProductDB.prototype.save = function(product) {
-  return true;
-};
-
 module.exports = ProductDB;

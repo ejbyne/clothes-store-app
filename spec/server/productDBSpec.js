@@ -1,4 +1,4 @@
-var ProductDB = require('../app/models/productDB.js');
+var ProductDB = require('../../app/models/productDB.js');
 
 describe('ProductDB', function() {
 

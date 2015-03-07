@@ -24,9 +24,9 @@ module.exports = function(app, express, productDB, shoppingCart) {
         try {
           shoppingCart.addItem(product, parseInt(request.body.quantity));
           product.quantity += parseInt(request.body.quantity);
-          return response.status(200).send({ success: true, message: 'Item added' });
+          response.status(200).send({ success: true, message: 'Item added' });
         } catch (error) {
-          return response.status(403).send({ success: false, message: error });
+          response.status(403).send({ success: false, message: error });
         }
       });
     });
@@ -43,7 +43,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
           product.quantity -= parseInt(request.body.quantity);
           response.status(200).send({ success: true, message: 'Item removed' });
         } catch (error) {
-          return response.status(403).send({ success: false, message: error });
+          response.status(403).send({ success: false, message: error });
         }
       });
     });
@@ -55,7 +55,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
         shoppingCart.applyDiscountVoucher(request.body.code);
         response.status(200).send({ success: true, message: 'Discount applied' });
       } catch(error) {
-        return response.status(403).send({ success: false, message: error });
+        response.status(403).send({ success: false, message: error });
       }
     });
 

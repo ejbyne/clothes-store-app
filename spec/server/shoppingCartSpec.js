@@ -1,5 +1,5 @@
-var ShoppingCart = require('../app/models/shoppingCart.js');
-var ProductDB = require('../app/models/ProductDB.js');
+var ShoppingCart = require('../../app/models/shoppingCart.js');
+var ProductDB = require('../../app/models/ProductDB.js');
 
 describe('ShoppingCart', function() {
 
@@ -13,7 +13,7 @@ describe('ShoppingCart', function() {
     product2 = productDB.findById(2, server.callback);
   });
 
-  describe('adding and removing items', function() {
+  describe('adding items', function() {
 
     it('the shopping cart is empty at the outset', function() {
       expect(shoppingCart.items.length).toEqual(0);
@@ -37,6 +37,10 @@ describe('ShoppingCart', function() {
       .toThrow('Insufficient stock');
     });
 
+  });
+
+  describe('removing items', function() {
+
     it('allows an item to be removed', function() {
       shoppingCart.addItem(product1, 1);
       shoppingCart.addItem(product2, 1);
@@ -49,7 +53,6 @@ describe('ShoppingCart', function() {
     it('allows a quantity of more than one to be removed', function() {
       shoppingCart.addItem(product1, 5);
       expect(shoppingCart.items[0].quantity).toEqual(5);
-      console.log(shoppingCart.items);
       shoppingCart.removeItem(product1, 3);
       expect(shoppingCart.items[0].quantity).toEqual(2);
       shoppingCart.removeItem(product1, 2);
