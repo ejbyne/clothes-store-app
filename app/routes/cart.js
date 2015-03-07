@@ -25,6 +25,24 @@ module.exports = function(app, express, productDB, shoppingCart) {
       });
     });
 
+  cartRoutes.route('/amend')
+
+    .post(function(request, response) {
+      productDB.findById(parseInt(request.body.id), function(error, product) {
+        if (error) {
+          return response.status(403).send({ success: false, message: error });
+        }
+        try {
+          shoppingCart.amendItemQuantity(product, parseInt(request.body.newQuantity));
+          product.quantity -= (parseInt(request.body.newQuantity) -
+            parseInt(request.body.existingQuantity));
+          response.status(200).send({ success: true, message: 'Item quantity amended' });
+        } catch (error) {
+          response.status(403).send({ success: false, message: error });
+        }
+      });
+    });
+
   cartRoutes.route('/remove')
 
     .post(function(request, response) {

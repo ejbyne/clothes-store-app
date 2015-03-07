@@ -3,34 +3,35 @@ var ShoppingCart = function() {
   this.isDiscountVoucher = false;
 };
 
-ShoppingCart.prototype.addItem = function(item, quantity) {
-  if (item.quantity < quantity) {
+ShoppingCart.prototype.addItem = function(product, quantity) {
+  if (product.quantity < quantity) {
     throw 'Insufficient stock';
-  } else if (this.findExistingItem(item)) {
-    this.findExistingItem(item).quantity += quantity;
+  } else if (this.findExistingItem(product)) {
+    this.findExistingItem(product).quantity += quantity;
   } else {
-    this.items.push({ id: item.id, name: item.name, category: item.category,
-                      price: item.price * quantity, quantity: quantity });
+    this.items.push({ id: product.id, name: product.name, category: product.category,
+                      price: product.price * quantity, quantity: quantity });
   }
 };
 
-ShoppingCart.prototype.removeItem = function(item) {
-  var existingItem = this.findExistingItem(item);
+ShoppingCart.prototype.removeItem = function(product) {
+  var existingItem = this.findExistingItem(product);
   this.items.splice(existingItem, 1);
 };
 
-ShoppingCart.prototype.amendItemQuantity = function(item, quantity) {
-  var existingItem = this.findExistingItem(item);
-  if (item.quantity < (quantity - existingItem.quantity)) {
+ShoppingCart.prototype.amendItemQuantity = function(product, quantity) {
+  var existingItem = this.findExistingItem(product);
+  if (product.quantity < (quantity - existingItem.quantity)) {
     throw 'Insufficient stock';
   } else {
     existingItem.quantity = quantity;
+    existingItem.price = product.price * existingItem.quantity;
   }
 };
 
-ShoppingCart.prototype.findExistingItem = function(item) {
+ShoppingCart.prototype.findExistingItem = function(product) {
   return this.items.filter(function(existingItem) {
-    return existingItem.id === item.id;
+    return existingItem.id === product.id;
   })[0];
 };
 

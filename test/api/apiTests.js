@@ -76,20 +76,38 @@ describe('API tests', function() {
       });
     });
 
-    // it('will raise an error when removing an item from the cart if the quantity is invalid', function() {
-    //   casper.thenOpen(host + '/cart/remove', {
-    //                   method: 'post',
-    //                   data:   { 'id': 1, 'quantity': 2 }
-    //   }, function(response) {
-    //     expect(response.status).to.equal(403);
-    //     expect('body').to.have.text('{"success":false,"message":"Invalid quantity"}');
-    //   });
-    // });
+    it('can amend the quantity of an item in the cart', function() {
+      casper.thenOpen(host + '/cart/amend', {
+                      method: 'post',
+                      data:   { 'id': 1, 'existingQuantity': 1, 'newQuantity': 2 }
+      }, function(response) {
+        expect(response.status).to.equal(200);
+        casper.thenOpen(host + '/cart', function(response) {
+          expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
+            'Patent Black","category":"Women\'s Footwear","price":198,"quantity":2}],' + 
+            '"sumOfItemPrices":198,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
+            '"totalPrice":183}');
+          casper.thenOpen(host + '/products/1', function(response) {
+            expect('body').to.contain.text('"quantity":3');
+          });
+        });
+      });
+    });
+
+    it('will raise an error when amending an item quantity if there is insufficient stock', function() {
+      casper.thenOpen(host + '/cart/amend', {
+                      method: 'post',
+                      data:   { 'id': 1, 'existingQuantity': 2, 'newQuantity': 6 }
+      }, function(response) {
+        expect(response.status).to.equal(403);
+        expect('body').to.have.text('{"success":false,"message":"Insufficient stock"}');
+      });
+    });
 
     it('can remove an item from the cart', function() {
       casper.thenOpen(host + '/cart/remove', {
                       method: 'post',
-                      data:   { 'id': 1, 'quantity': 1 }
+                      data:   { 'id': 1, 'quantity': 2 }
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
