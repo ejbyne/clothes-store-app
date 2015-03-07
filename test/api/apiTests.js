@@ -28,12 +28,12 @@ describe('API tests', function() {
       });
     });
 
-    // it('will provide an error message if a specified product ID cannot be found', function() {
-    //   casper.thenOpen(host + '/products/14', function(response) {
-    //     expect(response.status).to.equal(403);
-    //     expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
-    //   });
-    // });
+    it('will provide an error message if a specified product ID cannot be found', function() {
+      casper.thenOpen(host + '/products/14', function(response) {
+        expect(response.status).to.equal(403);
+        expect('body').to.have.text('{"success":false,"message":"Unable to find product"}');
+      });
+    });
 
   });
 

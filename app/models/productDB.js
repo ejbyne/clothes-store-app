@@ -103,13 +103,12 @@ ProductDB.prototype.find = function(callback) {
 };
 
 ProductDB.prototype.findById = function(id, callback) {
-  this.data.forEach(function(product) {
-    if (product.id === id) {
-      return callback(null, product);
-    } 
-  }, function() {
-    callback('Unable to find product');
-  });
+  for (var i = 0; i < this.data.length; i++) {
+    if (this.data[i].id === id) {
+      return callback(null, this.data[i]);
+    }
+  }
+  callback('Unable to find product');
 };
 
 module.exports = ProductDB;
