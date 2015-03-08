@@ -20,7 +20,7 @@ app.use('/products', productsRoutes);
 app.use('/cart', cartRoutes);
 
 app.get('*', function(request, response) {
-  response.sendFile(__dirname + '/public/views/index.html');
+  response.sendFile(__dirname + '/public/app/views/index.html');
 });
 
 server.listen(port, function() {

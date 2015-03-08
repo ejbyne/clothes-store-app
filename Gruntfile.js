@@ -23,7 +23,7 @@ module.exports = function(grunt){
     
     watch: {
       scripts: {
-        files: ['spec/**/*', 'test/**/*', 'app/**/*'],
+        files: ['spec/**/*', 'test/**/*', 'app/**/*', 'public/app/**/*'],
         tasks: ['express:test', 'jshint', 'jasmine_node', 'mocha_casperjs', 'karma']
       }
     },
@@ -45,7 +45,7 @@ module.exports = function(grunt){
       continuous: {
         configFile: 'karma.conf.js',
         singleRun: true,
-        browsers: ['PhantomJS']
+        browsers: ['Chrome']
       }
     }
 
@@ -76,6 +76,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-karma');
   // grunt.loadNpmTasks('grunt-protractor-runner');
 
-  grunt.registerTask('default', ['express:test', 'jshint', 'jasmine_node', 'mocha_casperjs', 'karma']);
+  grunt.registerTask('default', ['karma', 'express:test', 'jshint', 'jasmine_node', 'mocha_casperjs']);
 
 };

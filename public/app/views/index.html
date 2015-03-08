@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="clothesShopApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Clothes Shop</title>
+    <script src="vendor/js/angular.min.js"></script>
+    <script src="app/controllers/productsController.js"></script>
+  </head>
+
+  <body>
+    <header>
+      Clothes Shop
+    </header>
+    <section ng-controller="ProductsController as products">
+      <ul class="product">
+        <li ng-repeat="product in products.productList">
+          {{ product.name }}
+          {{ product.price }}
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
