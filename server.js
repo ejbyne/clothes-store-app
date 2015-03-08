@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var port = process.env.PORT || 3000;
 var ProductDB = require('./app/models/productDB');
 var ShoppingCart = require('./app/models/shoppingCart');
@@ -12,6 +13,7 @@ var cartRoutes = require('./app/routes/cart')(app, express, productDB, shoppingC
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(express.static(__dirname + '/public'));
 
 app.use('/products', productsRoutes);

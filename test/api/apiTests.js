@@ -79,7 +79,8 @@ describe('API tests', function() {
     it('can amend the quantity of an item in the cart', function() {
       casper.thenOpen(host + '/cart/amend', {
                       method: 'post',
-                      data:   { 'id': 1, 'existingQuantity': 1, 'newQuantity': 2 }
+                      data:   { 'id': 1, 'existingQuantity': 1, 'newQuantity': 2 },
+                      headers: { 'X-HTTP-Method-Override': 'PUT' }
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
@@ -97,7 +98,8 @@ describe('API tests', function() {
     it('will raise an error when amending an item quantity if there is insufficient stock', function() {
       casper.thenOpen(host + '/cart/amend', {
                       method: 'post',
-                      data:   { 'id': 1, 'existingQuantity': 2, 'newQuantity': 6 }
+                      data:   { 'id': 1, 'existingQuantity': 2, 'newQuantity': 6 },
+                      headers: { 'X-HTTP-Method-Override': 'PUT' }
       }, function(response) {
         expect(response.status).to.equal(403);
         expect('body').to.have.text('{"success":false,"message":"Insufficient stock"}');
@@ -107,7 +109,8 @@ describe('API tests', function() {
     it('can remove an item from the cart', function() {
       casper.thenOpen(host + '/cart/remove', {
                       method: 'post',
-                      data:   { 'id': 1, 'quantity': 2 }
+                      data:   { 'id': 1, 'quantity': 2 },
+                      headers: { 'X-HTTP-Method-Override': 'DELETE' }
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {

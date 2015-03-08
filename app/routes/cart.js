@@ -27,7 +27,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
 
   cartRoutes.route('/amend')
 
-    .post(function(request, response) {
+    .put(function(request, response) {
       productDB.findById(parseInt(request.body.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
@@ -45,7 +45,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
 
   cartRoutes.route('/remove')
 
-    .post(function(request, response) {
+    .delete(function(request, response) {
       productDB.findById(parseInt(request.body.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
@@ -66,7 +66,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
       try {
         shoppingCart.applyDiscountVoucher(request.body.code);
         response.status(200).send({ success: true, message: 'Discount applied' });
-      } catch(error) {
+      } catch (error) {
         response.status(403).send({ success: false, message: error });
       }
     });
