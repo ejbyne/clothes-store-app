@@ -10,21 +10,21 @@ module.exports = function(grunt){
     },
 
     jshint: {
-        src: ['server.js', 'app/models/*.js', 'spec/**/*.js', 'test/**/*.js']
+        src: ['server.js', 'app/models/*.js', 'spec/**/*.js', 'test/api/*.js']
     },
 
     mocha_casperjs: {
       options: {
       },
       files: {
-        src: ['test/api/*.js']
+        src: ['test/**/*.js']
       }
     },
     
     watch: {
       scripts: {
         files: ['spec/**/*', 'test/**/*', 'app/**/*'],
-        tasks: ['express:test', 'jasmine_node', 'mocha_casperjs', 'jshint', 'protractor']
+        tasks: ['express:test', 'jshint', 'jasmine_node', 'mocha_casperjs', 'karma']
       }
     },
 
@@ -47,24 +47,24 @@ module.exports = function(grunt){
         singleRun: true,
         browsers: ['PhantomJS']
       }
-    },
-
-    protractor: {
-      options: {
-        configFile: "protractor.conf.js", // Default config file
-        keepAlive: true, // If false, the grunt process stops when the test fails.
-        noColor: false, // If true, protractor will not use colors in its output.
-        args: {
-          // Arguments passed to the command
-        }
-      },
-      your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
-        options: {
-          configFile: "protractor.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
-        }
-      },
     }
+
+    // protractor: {
+    //   options: {
+    //     configFile: "protractor.conf.js", // Default config file
+    //     keepAlive: true, // If false, the grunt process stops when the test fails.
+    //     noColor: false, // If true, protractor will not use colors in its output.
+    //     args: {
+    //       // Arguments passed to the command
+    //     }
+    //   },
+    //   your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
+    //     options: {
+    //       configFile: "protractor.conf.js", // Target-specific config file
+    //       args: {} // Target-specific arguments
+    //     }
+    //   },
+    // }
 
   });
 
@@ -74,8 +74,8 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-mocha-casperjs');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-protractor-runner');
+  // grunt.loadNpmTasks('grunt-protractor-runner');
 
-  grunt.registerTask('default', ['express:test', 'jasmine_node', 'mocha_casperjs', 'jshint', 'protractor']);
+  grunt.registerTask('default', ['express:test', 'jshint', 'jasmine_node', 'mocha_casperjs', 'karma']);
 
 };

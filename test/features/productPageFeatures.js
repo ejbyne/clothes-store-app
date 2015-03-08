@@ -1,18 +1,21 @@
 describe('Product page features', function() {
 
-  var productList = element.all(by.repeater('product in products'));
-  
+  before(function() {
+    casper.start('http://localhost:3000');
+  });
+
   it('should have a title', function() {
-    browser.get('http://localhost:3000');
-    expect(browser.getTitle()).toEqual('Clothes Shop');
+    casper.then(function() {
+      expect('title').to.have.text('Clothes Shop');
+    });
   });
 
   it('should display the website logo', function() {
-    expect(element(by.css('header')).getText()).toContain('Clothes Shop');
+    expect('header').to.contain.text('Clothes Shop');
   });
 
   it('should show all of the products', function() {
-    expect(productList.count).toEqual(13);
+    expect("document.querySelectorAll('.product li').length").to.evaluate.to.be.at.least(13);
   });
 
 });
