@@ -35,12 +35,7 @@ describe('Product page features', function() {
       casper.then(function() {
         this.click('#product1 button');
         casper.then(function() {
-          this.clickLabel('Cart ');
-          casper.then(function() {
-            expect('body').to.have.text('Your Shopping Cart');
-            expect('body').to.have.text('Almond Toe Court Shoes, Patent Black');
-            expect('body').to.have.text('£198');
-          });
+          expect('body').to.have.text('Item was added to your cart');
         });
       });
     });
