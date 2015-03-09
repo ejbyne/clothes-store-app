@@ -1,7 +1,29 @@
 describe('Products Controller', function(){
 
   var products, httpBackend;
-  var productList = new ProductDB().data;
+  var mockProducts = [
+    {
+      id:       1,
+      name:     "Almond Toe Court Shoes, Patent Black",
+      category: "Women's Footwear",
+      price:    99,
+      quantity: 5
+    },
+    {
+      id:       2,
+      name:     "Suede Shoes, Blue",
+      category: "Women's Footwear",
+      price:    42,
+      quantity: 4
+    },
+    {
+      id:       3,
+      name:     "Leather Driver Saddle Loafers, Tan",
+      category: "Men's Footwear",
+      price:    34,
+      quantity: 12
+    }
+  ];
 
   beforeEach(module('clothesShopApp'));
 
@@ -10,19 +32,19 @@ describe('Products Controller', function(){
     httpBackend = $httpBackend;
     httpBackend
       .when('GET', '/products')
-      .respond({ products: productList });
+      .respond({ products: mockProducts });
     httpBackend
       .when('GET', '/products/1')
-      .respond({ product: productList[0] });
+      .respond({ product: mockProducts[0] });
   }));
 
   it('should create a products list with all 13 products', function() {
     httpBackend.flush();
-    expect(products.productList.length).toBe(13);
+    expect(products.productList.length).toBe(3);
     expect(products.productList[0]).toEqual({ id: 1, name: 'Almond Toe Court Shoes,' +
       ' Patent Black', category: 'Women\'s Footwear', price: 99, quantity: 5 });
-    expect(products.productList[12]).toEqual({ id: 13, name: 'Mid Twist Cut-Out Dress,' +
-      ' Pink', category: 'Women\'s Formalwear', price: 540, quantity: 5 });
+    expect(products.productList[2]).toEqual({ id: 3, name: 'Leather Driver Saddle ' +
+      'Loafers, Tan', category: 'Men\'s Footwear', price: 34, quantity: 12 });
   });
 
   it('should retrieve a requested product', function() {

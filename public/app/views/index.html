@@ -112,12 +112,21 @@
 
       <section ng-controller="productsController as products">
         <article ng-repeat="product in products.productList" class="col-md-4">
-          <p>
-            <strong>{{ product.name }}</strong><br>
-            £{{ product.price }}<br>
-            {{ product.quantity }} in stock<br>
-            <button type="button" class="btn btn-primary">Add to <span class="glyphicon glyphicon-shopping-cart"></span></button>
-          </p>
+          <div class="product" id="product{{ product.id }}">
+            <p><strong>{{ product.name }}</strong><br>
+            {{ product.price | currency:"£" }}<br>
+            {{ product.quantity }} in stock<br></p>
+            <form>
+              Quantity: <select name="quantity">
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+              </select>
+              <button type="button" class="btn btn-primary">Add to <span class="glyphicon glyphicon-shopping-cart"></span></button>
+            </form>
+          </div>
         </article>
       </section>
 
