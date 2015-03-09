@@ -1,19 +1,45 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
-  padding-top: 70px;
-  padding-bottom: 20px;
+  padding-top: 50px;
+  margin-bottom: 50px;
+}
+
+.navbar-right {
+  padding-right: 30px;
+}
+
+.sidebar {
+  display: none;
+  padding-left: 0;
 }
 
 @media (min-width: 768px) {
-  .nav.nav-sidebar {
-    position: fixed;
-    top: 70px;
-    margin-left: 5px;
-    padding-top: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
-    bottom: 0;
-    background-color: #f5f5f5;
+  body {
+    padding-top: 70px;
   }
+  .sidebar {
+    display: block;
+  }
+}
+
+.nav.nav-sidebar {
+  position: fixed;
+  top: 50px;
+  bottom: 0;
+  padding-top: 30px;
+  padding-left: 10px;
+  background-color: #f5f5f5;
+}
+
+.title {
+  border-top: 1px solid #D3D3D3;
+}
+
+.nav.nav-sidebar a {
+  color: #555555;
 }
 
 article {
@@ -23,8 +49,14 @@ article {
 /* Carousel base class */
 .carousel {
   height: 250px;
-  margin-bottom: 20px;
-  margin-right: 20px;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 768px) {
+  .carousel {
+    margin-left: 20px;
+    margin-right: 20px
+  }
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -43,4 +75,19 @@ article {
   left: 0;
   min-width: 100%;
   height: 250px;
+}
+
+.carousel h1 {
+  color: white;
+}
+
+.footer {
+  position: absolute;
+  border-top: 1px solid #D3D3D3;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  padding-top: 10px;
+  background-color: #f5f5f5;
+  text-align: center;
 }
