@@ -41,9 +41,9 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
     store.message = false;
     Cart.add(id, store.orderQuantities[id])
     .success(function(data) {
-      store.message = data.message;
       store.orderQuantities[id] = 1;
       store.findProducts();
+      store.message = data.message;
       $('#cart-modal').modal('show');
     });
 

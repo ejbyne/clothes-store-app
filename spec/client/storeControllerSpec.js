@@ -37,7 +37,7 @@ describe('Store Controller', function(){
       .when('GET', '/products/1')
       .respond({ product: mockProducts[0] });
     httpBackend
-      .when('POST', '/cart/add', { id: 1, quantity: 2 })
+      .when('POST', '/cart/items', { id: 1, quantity: 2 })
       .respond({ success: true, message: 'Item successfully added to cart' });
     httpBackend
       .when('GET', '/cart')

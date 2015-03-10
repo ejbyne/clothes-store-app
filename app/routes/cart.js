@@ -8,7 +8,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
       response.json({ cart: shoppingCart.cartData() });
     });
 
-  cartRoutes.route('/add')
+  cartRoutes.route('/items')
 
     .post(function(request, response) {
       productDB.findById(parseInt(request.body.id), function(error, product) {
@@ -25,10 +25,10 @@ module.exports = function(app, express, productDB, shoppingCart) {
       });
     });
 
-  cartRoutes.route('/amend')
+  cartRoutes.route('/item/:id')
 
     .put(function(request, response) {
-      productDB.findById(parseInt(request.body.id), function(error, product) {
+      productDB.findById(parseInt(request.params.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
         }
@@ -41,12 +41,10 @@ module.exports = function(app, express, productDB, shoppingCart) {
           response.status(403).send({ success: false, message: error });
         }
       });
-    });
-
-  cartRoutes.route('/remove')
+    })
 
     .delete(function(request, response) {
-      productDB.findById(parseInt(request.body.id), function(error, product) {
+      productDB.findById(parseInt(request.params.id), function(error, product) {
         if (error) {
           return response.status(403).send({ success: false, message: error });
         }
@@ -60,7 +58,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
       });
     });
 
-  cartRoutes.route('/voucher')
+  cartRoutes.route('/vouchers')
 
     .post(function(request, response) {
       try {

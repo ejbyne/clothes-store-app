@@ -49,7 +49,7 @@ describe('API tests', function() {
     });
 
     it('will raise an error when adding an item to the cart if there is insufficient stock', function() {
-      casper.thenOpen(host + '/cart/add', {
+      casper.thenOpen(host + '/cart/items', {
                       method: 'post',
                       data:   { 'id': 1, 'quantity': 7 }
       }, function(response) {
@@ -59,7 +59,7 @@ describe('API tests', function() {
     });
 
     it('can add an item to the cart if there is sufficient stock', function() {
-      casper.thenOpen(host + '/cart/add', {
+      casper.thenOpen(host + '/cart/items', {
                       method: 'post',
                       data:   { 'id': 1, 'quantity': 1 }
       }, function(response) {
@@ -77,9 +77,9 @@ describe('API tests', function() {
     });
 
     it('can amend the quantity of an item in the cart', function() {
-      casper.thenOpen(host + '/cart/amend', {
+      casper.thenOpen(host + '/cart/item/1', {
                       method: 'post',
-                      data:   { 'id': 1, 'existingQuantity': 1, 'newQuantity': 2 },
+                      data:   { 'existingQuantity': 1, 'newQuantity': 2 },
                       headers: { 'X-HTTP-Method-Override': 'PUT' }
       }, function(response) {
         expect(response.status).to.equal(200);
@@ -96,9 +96,9 @@ describe('API tests', function() {
     });
 
     it('will raise an error when amending an item quantity if there is insufficient stock', function() {
-      casper.thenOpen(host + '/cart/amend', {
+      casper.thenOpen(host + '/cart/item/1', {
                       method: 'post',
-                      data:   { 'id': 1, 'existingQuantity': 2, 'newQuantity': 6 },
+                      data:   { 'existingQuantity': 2, 'newQuantity': 6 },
                       headers: { 'X-HTTP-Method-Override': 'PUT' }
       }, function(response) {
         expect(response.status).to.equal(403);
@@ -107,9 +107,9 @@ describe('API tests', function() {
     });
 
     it('can remove an item from the cart', function() {
-      casper.thenOpen(host + '/cart/remove', {
+      casper.thenOpen(host + '/cart/item/1', {
                       method: 'post',
-                      data:   { 'id': 1, 'quantity': 2 },
+                      data:   { 'quantity': 2 },
                       headers: { 'X-HTTP-Method-Override': 'DELETE' }
       }, function(response) {
         expect(response.status).to.equal(200);
@@ -124,11 +124,11 @@ describe('API tests', function() {
     });
 
     it('will raise an error if an invalid discount voucher code is given', function() {
-      casper.thenOpen(host + '/cart/add', {
+      casper.thenOpen(host + '/cart/items', {
                       method: 'post',
                       data:   { 'id': 2, 'quantity': 1 }
       }, function(response) {
-        casper.thenOpen(host + '/cart/voucher', {
+        casper.thenOpen(host + '/cart/vouchers', {
                         method: 'post',
                         data:   { 'code': 'TENNERDISCOUNT' }
         }, function(response) {
@@ -139,7 +139,7 @@ describe('API tests', function() {
     });
 
     it('will apply a voucher discount if the correct code is given', function() {
-      casper.thenOpen(host + '/cart/voucher', {
+      casper.thenOpen(host + '/cart/vouchers', {
                       method: 'post',
                       data:   { 'code': 'FIVERDISCOUNT' }
       }, function(response) {

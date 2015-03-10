@@ -9,7 +9,7 @@ angular.module('cartService', [])
   };
 
   cartFactory.add = function(id, quantity) {
-    return $http.post('/cart/add', { id: id, quantity: quantity });
+    return $http.post('/cart/items', { id: id, quantity: quantity });
   };
 
   return cartFactory;
