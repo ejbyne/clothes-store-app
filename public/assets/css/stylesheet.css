@@ -89,3 +89,7 @@ article {
   background-color: #f5f5f5;
   text-align: center;
 }
+
+.modal-body h4 {
+  text-align: center;
+}

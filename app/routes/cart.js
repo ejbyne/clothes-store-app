@@ -18,7 +18,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
         try {
           shoppingCart.addItem(product, parseInt(request.body.quantity));
           product.quantity -= parseInt(request.body.quantity);
-          response.status(200).send({ success: true, message: 'Item added' });
+          response.status(200).send({ success: true, message: 'Item successfully added to cart' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });
         }
@@ -36,7 +36,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
           shoppingCart.amendItemQuantity(product, parseInt(request.body.newQuantity));
           product.quantity -= (parseInt(request.body.newQuantity) -
             parseInt(request.body.existingQuantity));
-          response.status(200).send({ success: true, message: 'Item quantity amended' });
+          response.status(200).send({ success: true, message: 'Item quantity successfully amended' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });
         }
@@ -53,7 +53,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
         try {
           shoppingCart.removeItem(product);
           product.quantity += parseInt(request.body.quantity);
-          response.status(200).send({ success: true, message: 'Item removed' });
+          response.status(200).send({ success: true, message: 'Item successful removed from cart' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });
         }
@@ -65,7 +65,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
     .post(function(request, response) {
       try {
         shoppingCart.applyDiscountVoucher(request.body.code);
-        response.status(200).send({ success: true, message: 'Discount applied' });
+        response.status(200).send({ success: true, message: 'Discount successfully applied' });
       } catch (error) {
         response.status(403).send({ success: false, message: error });
       }

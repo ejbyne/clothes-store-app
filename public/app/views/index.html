@@ -15,7 +15,7 @@
     <script src="app/services/cartService.js"></script>
   </head>
 
-  <body>
+  <body ng-controller="storeController as store">
 
     <header class="navbar navbar-default navbar-fixed-top" class="container">
       <a class="navbar-brand" href="/">Clothes Shop</a>
@@ -111,26 +111,43 @@
         </a>
       </div>
 
-      <section ng-controller="storeController as store">
+      <section>
         <article ng-repeat="product in store.products" class="col-md-4">
           <div class="product" id="product{{ product.id }}">
             <p><strong>{{ product.name }}</strong><br>
+            {{ product.category }}<br>
             {{ product.price | currency:"£" }}<br>
             {{ product.quantity }} in stock<br></p>
             <form>
-              Quantity: <select name="quantity">
+              Quantity: <select name="quantity" ng-model="store.orderQuantities[product.id]">
                 <option value='1'>1</option>
                 <option value='2'>2</option>
                 <option value='3'>3</option>
                 <option value='4'>4</option>
                 <option value='5'>5</option>
               </select>
-              <button type="button" class="btn btn-primary">Add to <span class="glyphicon glyphicon-shopping-cart"></span></button>
+              <button ng-click="store.addToCart(product.id)" class="btn btn-primary">Add to <span class="glyphicon glyphicon-shopping-cart"></span></button>
             </form>
           </div>
         </article>
       </section>
 
+    </div>
+
+    <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+            <h4>{{ store.message }}.</h4>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <footer class="footer">

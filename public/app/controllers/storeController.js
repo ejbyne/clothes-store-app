@@ -4,11 +4,14 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
 
   var store = this;
   store.products = [];
-  store.cartItem = {};
+  store.orderQuantities = {};
 
   Product.all()
   .success(function(data) {
     store.products = data.products;
+    store.products.forEach(function(product) {
+      store.orderQuantities[product.id] = 1;
+    });
   });
 
   store.findProducts = function() {
@@ -34,13 +37,16 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
     });
   };
 
-  store.addToCart = function(id, quantity) {
+  store.addToCart = function(id) {
     store.message = false;
-    Cart.add(id, quantity)
+    Cart.add(id, store.orderQuantities[id])
     .success(function(data) {
       store.message = data.message;
-      store.cartItem = {};
+      store.orderQuantities[id] = 1;
+      store.findProducts();
+      $('#cart-modal').modal('show');
     });
+
   };
 
 });

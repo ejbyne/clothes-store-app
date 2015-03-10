@@ -18,11 +18,9 @@ describe('Product page features', function() {
     expect("document.querySelectorAll('.product').length").to.evaluate.to.be.at.least(13);
   });
 
-  it('should show the name, price and stock for each product', function() {
-    expect('#product1').to.contain.text('Almond Toe Court Shoes, Patent Black');
-    expect('#product1').to.contain.text('£99');
-    expect('#product1').to.contain.text('5 in stock');
+  it('should show the name, category, price and stock for each product', function() {
     expect('#product13').to.contain.text('Mid Twist Cut-Out Dress, Pink');
+    expect('#product13').to.contain.text('Women\'s Formalwear');
     expect('#product13').to.contain.text('£540');
     expect('#product13').to.contain.text('5 in stock');
   });
@@ -34,8 +32,9 @@ describe('Product page features', function() {
       }, false);
       casper.then(function() {
         this.click('#product1 button');
-        casper.then(function() {
-          expect('body').to.have.text('Item was added to your cart');
+        casper.waitUntilVisible('#cart-modal', function() {
+          expect('#cart-modal').to.contain.text('Item successfully added to cart');
+          expect('#product1').to.contain.text('3 in stock');
         });
       });
     });

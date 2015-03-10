@@ -37,12 +37,12 @@ describe('Store Controller', function(){
       .when('GET', '/products/1')
       .respond({ product: mockProducts[0] });
     httpBackend
-      .when('POST', '/cart/add', { id: 1, quantity: 1 })
-      .respond({ success: true, message: 'Item added' });
+      .when('POST', '/cart/add', { id: 1, quantity: 2 })
+      .respond({ success: true, message: 'Item successfully added to cart' });
     httpBackend
       .when('GET', '/cart')
-      .respond({cart: {items:[], sumOfItemPrices: 0, voucherDiscount: 0,
-        spendDiscount: 0, totalDiscounts: 0, totalPrice: 0}});
+      .respond( {cart: {items:[], sumOfItemPrices: 0, voucherDiscount: 0,
+        spendDiscount: 0, totalDiscounts: 0, totalPrice: 0 }});
   }));
 
   it('should retrieve all products', function() {
@@ -68,11 +68,11 @@ describe('Store Controller', function(){
   });
 
   it('should enable an item to be added to the cart', function() {
-    store.cartItem = { id: 1, quantity: 1 };
-    store.addToCart(store.cartItem.id, store.cartItem.quantity);
+    store.orderQuantities[1] = 2;
+    store.addToCart(1);
     expect(store.message).toBe(false);
     httpBackend.flush();
-    expect(store.message).toBe('Item added');
+    expect(store.message).toBe('Item successfully added to cart');
   });
 
 });
