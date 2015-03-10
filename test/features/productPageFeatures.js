@@ -27,14 +27,14 @@ describe('Product page features', function() {
 
   it('should enable the user to add a product to the cart', function() {
     casper.then(function() {
-      this.fill('#product1 form', {
+      this.fill('#product2 form', {
         'quantity': '2'
       }, false);
       casper.then(function() {
-        this.click('#product1 button');
+        this.click('#product2 button');
         casper.waitUntilVisible('#cart-modal', function() {
           expect('#cart-modal').to.contain.text('Item successfully added to cart');
-          expect('#product1').to.contain.text('3 in stock');
+          expect('#product2').to.contain.text('1 in stock');
         });
       });
     });
