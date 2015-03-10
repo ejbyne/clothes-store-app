@@ -43,8 +43,8 @@ describe('API tests', function() {
       casper.thenOpen(host + '/cart', function(response) {
         expect(response.status).to.equal(200);
         expect(response.contentType).to.equal('application/json; charset=utf-8');
-        expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
-          '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}');
+        expect('body').to.have.text('{"cart":{"items":[],"sumOfItemPrices":0,' +
+          '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}}');
       });
     });
 
@@ -65,10 +65,10 @@ describe('API tests', function() {
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
-          expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
+          expect('body').to.have.text('{"cart":{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
             'Patent Black","category":"Women\'s Footwear","price":99,"quantity":1}],' + 
             '"sumOfItemPrices":99,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
-            '"totalPrice":84}');
+            '"totalPrice":84}}');
           casper.thenOpen(host + '/products/1', function(response) {
             expect('body').to.contain.text('"quantity":4');
           });
@@ -84,10 +84,10 @@ describe('API tests', function() {
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
-          expect('body').to.have.text('{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
+          expect('body').to.have.text('{"cart":{"items":[{"id":1,"name":"Almond Toe Court Shoes, ' +
             'Patent Black","category":"Women\'s Footwear","price":198,"quantity":2}],' + 
             '"sumOfItemPrices":198,"voucherDiscount":0,"spendDiscount":15,"totalDiscounts":15,' +
-            '"totalPrice":183}');
+            '"totalPrice":183}}');
           casper.thenOpen(host + '/products/1', function(response) {
             expect('body').to.contain.text('"quantity":3');
           });
@@ -114,8 +114,8 @@ describe('API tests', function() {
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
-          expect('body').to.have.text('{"items":[],"sumOfItemPrices":0,' +
-            '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}');
+          expect('body').to.have.text('{"cart":{"items":[],"sumOfItemPrices":0,' +
+            '"voucherDiscount":0,"spendDiscount":0,"totalDiscounts":0,"totalPrice":0}}');
           casper.thenOpen(host + '/products/1', function(response) {
             expect('body').to.contain.text('"quantity":5');
           });
@@ -145,10 +145,10 @@ describe('API tests', function() {
       }, function(response) {
         expect(response.status).to.equal(200);
         casper.thenOpen(host + '/cart', function(response) {
-          expect('body').to.have.text('{"items":[{"id":2,"name":"Suede Shoes, Blue",' +
+          expect('body').to.have.text('{"cart":{"items":[{"id":2,"name":"Suede Shoes, Blue",' +
             '"category":"Women\'s Footwear","price":42,"quantity":1}],' + 
             '"sumOfItemPrices":42,"voucherDiscount":5,"spendDiscount":0,"totalDiscounts":5,' +
-            '"totalPrice":37}');
+            '"totalPrice":37}}');
         });
       });
     });

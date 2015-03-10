@@ -46,7 +46,6 @@ article {
   height: 180px;
 }
 
-/* Carousel base class */
 .carousel {
   height: 250px;
   margin-bottom: 30px;
@@ -58,13 +57,12 @@ article {
     margin-right: 20px
   }
 }
-/* Since positioning the image, we need to help out the caption */
+
 .carousel-caption {
   top: 50px;
   z-index: 10;
 }
 
-/* Declare heights because of positioning of img element */
 .carousel .item {
   height: 250px;
   background-color: #777;
