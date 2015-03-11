@@ -71,4 +71,47 @@ describe('Cart page features', function() {
     });
   });
 
+  it('displays the £10 spend discount where applicable', function() {
+    casper.then(function() {
+      this.clickLabel('Home');
+      casper.then(function() {
+        this.fill('#product4 form', {
+          'quantity': '1'
+        }, false);
+        casper.then(function() {
+          this.click('#product4 button');
+          casper.then(function() {
+            this.clickLabel('Cart ');
+            casper.then(function() {
+              expect('table').to.contain.text('Spend Discount');
+              expect('table').to.contain.text('£10');
+            });
+          });
+        });
+      });      
+    });
+  });
+
+
+  it('displays the £10 spend discount where applicable', function() {
+    casper.then(function() {
+      this.clickLabel('Home');
+      casper.then(function() {
+        this.fill('#product7 form', {
+          'quantity': '1'
+        }, false);
+        casper.then(function() {
+          this.click('#product7 button');
+          casper.then(function() {
+            this.clickLabel('Cart ');
+            casper.then(function() {
+              expect('table').to.contain.text('Spend Discount');
+              expect('table').to.contain.text('£15');
+            });
+          });
+        });
+      });      
+    });
+  });
+
 });

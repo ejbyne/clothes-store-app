@@ -78,8 +78,12 @@ angular.module('storeController', [])
     });
   };
 
-  store.isDiscountVoucher = function() {
+  store.isVoucherDiscount = function() {
     store.voucherDiscount > 0;
+  };
+
+  store.isSpendDiscount = function() {
+    store.spendDiscount > 0;
   };
 
 });
