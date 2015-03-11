@@ -11,7 +11,7 @@
       <th>Product</th>
       <th>Category</th>
       <th>Quantity</th>
-      <th>Price</th>
+      <th class="price-column">Price</th>
       <th></th>
     </tr>
     </thead>
@@ -20,13 +20,16 @@
         <td>{{ item.name }}</td>
         <td>{{ item.category }}</td>
         <td>{{ item.quantity }}</td>
-        <td>{{ item.price | currency:"£" }}</td>
+        <td class="price-column">{{ item.price | currency:"£" }}</td>
         <td>
           <button ng-click="store.removeFromCart(item.id, item.quantity)" class="btn btn-primary">Remove</span></button>
         </td>
       </tr>
+      <tr>
+        <td></td><td></td>
+        <td class="price-column"><strong>Total Price</strong></td>
+        <td class="price-column"><strong>{{ store.cart.totalPrice | currency:"£" }}</strong></td>
     </tbody>
   </table>
-  {{ store.cart.totalPrice }}
 
 </div>

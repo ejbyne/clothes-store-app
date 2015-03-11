@@ -106,3 +106,7 @@ article {
 #cart-table {
   margin-bottom: 50px;
 }
+
+.price-column {
+  text-align: right;
+}
