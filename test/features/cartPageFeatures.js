@@ -46,4 +46,11 @@ describe('Cart page features', function() {
     });
   });
 
+  it('enables the user to view the total price for the cart items', function() {
+    casper.then(function() {
+      expect('table').to.contain.text('Total Price');
+      expect('body').to.contain.text('£37');
+    })
+  });
+
 });
