@@ -4,6 +4,9 @@ angular.module('storeController', [])
 
   var store = this;
   store.products = [];
+  store.cart = {
+    items: []
+  };
   store.orderQuantities = {};
 
   Product.all()
@@ -33,7 +36,7 @@ angular.module('storeController', [])
     });
   };
 
-  store.viewCart = function() {
+  store.getCart = function() {
     Cart.get()
     .success(function(data) {
       store.cart = data.cart;
@@ -48,6 +51,21 @@ angular.module('storeController', [])
       store.message = data.message;
       $('#cart-modal').modal('show');
     });
+  };
+
+  store.removeFromCart = function(id, quantity) {
+    Cart.remove(id, quantity)
+    .success(function(data) {
+      store.getCart();
+      store.message = data.message;
+    });
+  };
+
+  store.isCartEmpty = function() {
+    if (store.cart.items.length === 0) {
+      return true;
+    }
+    return false;
   };
 
 });

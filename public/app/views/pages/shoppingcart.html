@@ -1,24 +1,28 @@
 <div class="container">
   
-  <h1>Your Shopping Cart</h1>
+  <div id="cart-header">
+    <h1>Your Shopping Cart</h1>
+    <p ng-show="store.isCartEmpty()" class="empty-cart">The cart is empty</p>
+  </div>
 
-  <table class="table table-striped">
+  <table ng-hide="store.isCartEmpty()" class="table table-striped" id="cart-table">
     <thead>
     <tr>
       <th>Product</th>
       <th>Category</th>
       <th>Quantity</th>
       <th>Price</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="item in store.cart.items">
+      <tr ng-repeat="item in store.cart.items" id="item{{ item.id }}">
         <td>{{ item.name }}</td>
         <td>{{ item.category }}</td>
         <td>{{ item.quantity }}</td>
         <td>{{ item.price | currency:"£" }}</td>
         <td>
-          <button ng-click="store.removeFromCart(item.id)" class="btn btn-primary">Remove<span class="glyphicon glyphicon-shopping-cart"></span></button>
+          <button ng-click="store.removeFromCart(item.id, item.quantity)" class="btn btn-primary">Remove</span></button>
         </td>
       </tr>
     </tbody>

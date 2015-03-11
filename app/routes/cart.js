@@ -25,7 +25,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
       });
     });
 
-  cartRoutes.route('/item/:id')
+  cartRoutes.route('/items/:id')
 
     .put(function(request, response) {
       productDB.findById(parseInt(request.params.id), function(error, product) {

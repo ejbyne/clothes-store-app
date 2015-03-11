@@ -16,7 +16,8 @@ ShoppingCart.prototype.addItem = function(product, quantity) {
 
 ShoppingCart.prototype.removeItem = function(product) {
   var existingItem = this.findExistingItem(product);
-  this.items.splice(existingItem, 1);
+  var existingItemIndex = this.items.indexOf(existingItem);
+  this.items.splice(existingItemIndex, 1);
 };
 
 ShoppingCart.prototype.amendItemQuantity = function(product, quantity) {

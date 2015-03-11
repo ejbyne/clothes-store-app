@@ -17,7 +17,7 @@ module.exports = function(grunt){
       options: {
       },
       files: {
-        src: ['test/api/*.js', 'test/features/productPageFeatures.js', 'test/features/cartPageFeatures.js']
+        src: ['test/**/*.js']
       }
     },
     

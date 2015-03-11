@@ -77,7 +77,7 @@ describe('API tests', function() {
     });
 
     it('can amend the quantity of an item in the cart', function() {
-      casper.thenOpen(host + '/cart/item/1', {
+      casper.thenOpen(host + '/cart/items/1', {
                       method: 'post',
                       data:   { 'existingQuantity': 1, 'newQuantity': 2 },
                       headers: { 'X-HTTP-Method-Override': 'PUT' }
@@ -96,7 +96,7 @@ describe('API tests', function() {
     });
 
     it('will raise an error when amending an item quantity if there is insufficient stock', function() {
-      casper.thenOpen(host + '/cart/item/1', {
+      casper.thenOpen(host + '/cart/items/1', {
                       method: 'post',
                       data:   { 'existingQuantity': 2, 'newQuantity': 6 },
                       headers: { 'X-HTTP-Method-Override': 'PUT' }
@@ -107,7 +107,7 @@ describe('API tests', function() {
     });
 
     it('can remove an item from the cart', function() {
-      casper.thenOpen(host + '/cart/item/1', {
+      casper.thenOpen(host + '/cart/items/1', {
                       method: 'post',
                       data:   { 'quantity': 2 },
                       headers: { 'X-HTTP-Method-Override': 'DELETE' }

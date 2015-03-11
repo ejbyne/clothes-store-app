@@ -12,6 +12,10 @@ angular.module('cartService', [])
     return $http.post('/cart/items', { id: id, quantity: quantity });
   };
 
+  cartFactory.remove = function(id, quantity) {
+    return $http.delete('/cart/items/' + id, { quantity: quantity });
+  };
+
   return cartFactory;
 
 });

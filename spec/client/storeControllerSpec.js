@@ -44,8 +44,8 @@ describe('Store Controller', function(){
       .respond( {cart: {items:[], sumOfItemPrices: 0, voucherDiscount: 0,
         spendDiscount: 0, totalDiscounts: 0, totalPrice: 0 }});
     httpBackend
-      .when('DELETE', '/cart')
-      .response({ success: true, message: 'Item successfully removed from cart' });
+      .when('DELETE', '/cart/items/1', { quantity: 2 })
+      .respond({ success: true, message: 'Item successfully removed from cart' });
   }));
 
   it('should retrieve all products', function() {
@@ -63,8 +63,8 @@ describe('Store Controller', function(){
   });
 
   it('should retrieve the contents of the cart', function() {
-    store.viewCart();
-    expect(store.cart).toBe(undefined);
+    store.getCart();
+    expect(store.cart).toEqual({ items: [] });
     httpBackend.flush();
     expect(store.cart).toEqual({items:[], sumOfItemPrices: 0,
       voucherDiscount: 0, spendDiscount: 0, totalDiscounts: 0, totalPrice: 0});
@@ -79,7 +79,7 @@ describe('Store Controller', function(){
   });
 
   it('should enable an item to be removed from the cart', function() {
-    store.removeFromCart(1);
+    store.removeFromCart(1, 2);
     httpBackend.flush();
     expect(store.message).toBe('Item successfully removed from cart');
   });
