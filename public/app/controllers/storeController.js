@@ -79,11 +79,11 @@ angular.module('storeController', [])
   };
 
   store.isVoucherDiscount = function() {
-    store.voucherDiscount > 0;
+    return store.cart.voucherDiscount > 0;
   };
 
   store.isSpendDiscount = function() {
-    store.spendDiscount > 0;
+    return store.cart.spendDiscount > 0;
   };
 
 });

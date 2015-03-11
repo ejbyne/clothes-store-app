@@ -8,6 +8,7 @@ ShoppingCart.prototype.addItem = function(product, quantity) {
     throw 'Insufficient stock';
   } else if (this.findExistingItem(product)) {
     this.findExistingItem(product).quantity += quantity;
+    this.findExistingItem(product).price += product.price * quantity;
   } else {
     this.items.push({ id: product.id, name: product.name, category: product.category,
                       price: product.price * quantity, quantity: quantity });

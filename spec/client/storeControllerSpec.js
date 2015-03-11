@@ -88,10 +88,19 @@ describe('Store Controller', function(){
   });
 
   it('should enable a discount to be applied with the correct code', function() {
+    expect(store.isVoucherDiscount()).toBe(false);
     store.voucherCode = 'FIVERDISCOUNT';
     store.applyVoucherDiscount();
     httpBackend.flush();
+    store.cart.voucherDiscount = 5;
+    expect(store.isVoucherDiscount()).toBe(true);
     expect(store.message).toBe('Discount successfully applied');
+  });
+
+  it('knows if there is a spend discount', function() {
+    expect(store.isSpendDiscount()).toBe(false);
+    store.cart.spendDiscount = 15;
+    expect(store.isSpendDiscount()).toBe(true);
   });
 
 });

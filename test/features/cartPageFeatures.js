@@ -92,8 +92,7 @@ describe('Cart page features', function() {
     });
   });
 
-
-  it('displays the £10 spend discount where applicable', function() {
+  it('displays the £15 spend discount where applicable', function() {
     casper.then(function() {
       this.clickLabel('Home');
       casper.then(function() {
