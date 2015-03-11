@@ -1,6 +1,6 @@
-var clothesShopApp = angular.module('clothesShopApp', ['productService', 'cartService']);
+angular.module('storeController', [])
 
-clothesShopApp.controller('storeController', function(Product, Cart) {
+.controller('storeController', function(Product, Cart) {
 
   var store = this;
   store.products = [];
@@ -14,6 +14,11 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
     });
   });
 
+  Cart.get()
+  .success(function(data) {
+    store.cart = data.cart;
+  });
+
   store.findProducts = function() {
     Product.all()
     .success(function(data) {
@@ -22,7 +27,6 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
   };
 
   store.findProductById = function(id) {
-    store.selectedProduct = false;
     Product.get(id)
     .success(function(data) {
       store.selectedProduct = data.product;
@@ -30,7 +34,6 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
   };
 
   store.viewCart = function() {
-    store.cart = false;
     Cart.get()
     .success(function(data) {
       store.cart = data.cart;
@@ -38,7 +41,6 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
   };
 
   store.addToCart = function(id) {
-    store.message = false;
     Cart.add(id, store.orderQuantities[id])
     .success(function(data) {
       store.orderQuantities[id] = 1;
@@ -46,7 +48,6 @@ clothesShopApp.controller('storeController', function(Product, Cart) {
       store.message = data.message;
       $('#cart-modal').modal('show');
     });
-
   };
 
 });

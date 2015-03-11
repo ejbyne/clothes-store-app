@@ -54,14 +54,14 @@ describe('Store Controller', function(){
 
   it('should retrieve a requested product', function() {
     store.findProductById(1);
-    expect(store.selectedProduct).toBe(false);
+    expect(store.selectedProduct).toBe(undefined);
     httpBackend.flush();
     expect(store.selectedProduct).toEqual(mockProducts[0]);
   });
 
   it('should retrieve the contents of the cart', function() {
     store.viewCart();
-    expect(store.cart).toBe(false);
+    expect(store.cart).toBe(undefined);
     httpBackend.flush();
     expect(store.cart).toEqual({items:[], sumOfItemPrices: 0,
       voucherDiscount: 0, spendDiscount: 0, totalDiscounts: 0, totalPrice: 0});
@@ -70,7 +70,7 @@ describe('Store Controller', function(){
   it('should enable an item to be added to the cart', function() {
     store.orderQuantities[1] = 2;
     store.addToCart(1);
-    expect(store.message).toBe(false);
+    expect(store.message).toBe(undefined);
     httpBackend.flush();
     expect(store.message).toBe('Item successfully added to cart');
   });

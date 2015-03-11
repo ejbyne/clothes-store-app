@@ -1,0 +1,24 @@
+<div class="container">
+  
+  <h1>Your Shopping Cart</h1>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Product</th>
+      <th>Category</th>
+      <th>Quantity</th>
+      <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in store.cart.items">
+        <td>{{ item.name }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price | currency:"£" }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

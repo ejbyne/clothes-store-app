@@ -6,12 +6,12 @@ describe('Product page features', function() {
 
   it('should have a title', function() {
     casper.then(function() {
-      expect('title').to.have.text('Clothes Shop');
+      expect('title').to.have.text('Ed\'s Clothing Emporium');
     });
   });
 
   it('should display the website logo', function() {
-    expect('header').to.contain.text('Clothes Shop');
+    expect('header').to.contain.text('Ed\'s Clothing Emporium');
   });
 
   it('should show all of the products', function() {
