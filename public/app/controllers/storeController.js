@@ -50,6 +50,10 @@ angular.module('storeController', [])
       store.findProducts();
       store.message = data.message;
       $('#cart-modal').modal('show');
+    })
+    .error(function(error) {
+      store.message = error.message;
+      $('#cart-modal').modal('show');
     });
   };
 

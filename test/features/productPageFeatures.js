@@ -40,4 +40,19 @@ describe('Product page features', function() {
     });
   });
 
+
+  it('provides an alert when an item is out of stock and cannot be added to the cart', function() {
+    casper.then(function() {
+      this.fill('#product5 form', {
+        'quantity': '1'
+      }, false);
+      casper.then(function() {
+        this.click('#product5 button');
+        casper.waitUntilVisible('#cart-modal', function() {
+          expect('#cart-modal').to.contain.text('Insufficient stock');
+        });
+      });
+    });
+  });
+
 });

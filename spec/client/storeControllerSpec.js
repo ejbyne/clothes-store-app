@@ -40,6 +40,9 @@ describe('Store Controller', function(){
       .when('POST', '/cart/items', { id: 1, quantity: 2 })
       .respond({ success: true, message: 'Item successfully added to cart' });
     httpBackend
+      .when('POST', '/cart/items', { id: 5, quantity: 1 })
+      .respond({ success: false, message: 'Insufficient stock' });
+    httpBackend
       .when('GET', '/cart')
       .respond( {cart: {items:[], sumOfItemPrices: 0, voucherDiscount: 0,
         spendDiscount: 0, totalDiscounts: 0, totalPrice: 0 }});
@@ -82,6 +85,13 @@ describe('Store Controller', function(){
     expect(store.message).toBe(undefined);
     httpBackend.flush();
     expect(store.message).toBe('Item successfully added to cart');
+  });
+
+  it('should provide an error message when there is insufficient stock', function() {
+    store.orderQuantities[5] = 1;
+    store.addToCart(5);
+    httpBackend.flush();
+    expect(store.message).toBe('Insufficient stock');
   });
 
   it('should enable an item to be removed from the cart', function() {
