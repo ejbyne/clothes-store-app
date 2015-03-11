@@ -27,9 +27,42 @@
       </tr>
       <tr>
         <td></td><td></td>
-        <td class="price-column"><strong>Total Price</strong></td>
-        <td class="price-column"><strong>{{ store.cart.totalPrice | currency:"£" }}</strong></td>
+        <td class="price-column">Subtotal</td>
+        <td class="price-column">{{ store.cart.sumOfItemPrices | currency:"£" }}</td>
+      <tr ng-show="store.cart.isDiscountVoucher()">
+        <td></td><td></td>
+        <td class="price-column">Voucher Discount</td>
+        <td class="price-column">{{ store.cart.voucherDiscount | currency:"£" }}</td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <form id="voucher-form" class="form-inline" ng-hide="store.isCartEmpty()">
+            <div class="form-group">
+              <input type="text" ng-model="store.voucherCode" class="form-control" name="code" placeholder="Enter voucher code">
+            </div>
+            <button class="btn btn-primary" ng-click="store.applyVoucherDiscount()">Apply Discount</button>
+          </form>
+        </td>
+        <td></td><td></td>
+      </tr>
     </tbody>
   </table>
 
+</div>
+
+<div class="modal fade" id="voucher-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <br>
+      </div>
+      <div class="modal-body">
+        <h4>{{ store.message }}.</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

@@ -46,6 +46,9 @@ describe('Store Controller', function(){
     httpBackend
       .when('DELETE', '/cart/items/1', { quantity: 2 })
       .respond({ success: true, message: 'Item successfully removed from cart' });
+    httpBackend
+      .when('POST', '/cart/vouchers', { code: 'FIVERDISCOUNT' })
+      .respond({ success: true, message: 'Discount successfully applied' });
   }));
 
   it('should retrieve all products', function() {
@@ -82,6 +85,13 @@ describe('Store Controller', function(){
     store.removeFromCart(1, 2);
     httpBackend.flush();
     expect(store.message).toBe('Item successfully removed from cart');
+  });
+
+  it('should enable a discount to be applied with the correct code', function() {
+    store.voucherCode = 'FIVERDISCOUNT';
+    store.applyVoucherDiscount();
+    httpBackend.flush();
+    expect(store.message).toBe('Discount successfully applied');
   });
 
 });

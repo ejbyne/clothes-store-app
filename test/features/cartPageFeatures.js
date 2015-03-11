@@ -48,22 +48,23 @@ describe('Cart page features', function() {
 
   it('enables the user to view the total price for the cart items', function() {
     casper.then(function() {
-      expect('table').to.contain.text('Total Price');
-      expect('table').to.contain.text('£37');
+      expect('table').to.contain.text('Subtotal');
+      expect('table').to.contain.text('£42');
     })
   });
 
   it('enables the user to apply a voucher discount', function() {
     casper.then(function() {
-      this.fill('#voucher form', {
+      this.fill('#voucher-form', {
         'code': 'FIVERDISCOUNT'
       }, false);
       casper.then(function() {
         this.clickLabel('Apply Discount');
+        expect('table').to.contain.text('Voucher Discount');
+        expect('table').to.contain.text('£5');
         casper.then(function() {
           casper.waitUntilVisible('#voucher-modal', function() {
-          expect('#voucher-modal').to.contain.text('Discount successfully applied');
-          expect('#table').to.contain.text('£32');
+            expect('#voucher-modal').to.contain.text('Discount successfully applied');
         });
         });
       });

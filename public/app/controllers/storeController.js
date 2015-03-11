@@ -68,4 +68,18 @@ angular.module('storeController', [])
     return false;
   };
 
+  store.applyVoucherDiscount = function() {
+    Cart.requestDiscount(store.voucherCode)
+    .success(function(data) {
+      store.getCart();
+      store.message = data.message;
+      store.voucherCode = '';
+      $('#voucher-modal').modal('show');
+    });
+  };
+
+  store.isDiscountVoucher = function() {
+    store.voucherDiscount > 0;
+  };
+
 });
