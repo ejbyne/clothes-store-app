@@ -27,17 +27,17 @@
       </tr>
       <tr>
         <td></td><td></td>
-        <td class="price-column">Subtotal</td>
+        <td class="price-column">Subtotal:</td>
         <td class="price-column">{{ store.cart.sumOfItemPrices | currency:"£" }}</td><td></td>
       </tr>
       <tr ng-show="store.isVoucherDiscount()">
         <td></td><td></td>
-        <td class="price-column">Voucher Discount</td>
+        <td class="price-column">Voucher Discount:</td>
         <td class="price-column">{{ store.cart.voucherDiscount | currency:"£" }}</td><td></td>
       </tr>
       <tr ng-show="store.isSpendDiscount()">
         <td></td><td></td>
-        <td class="price-column">Spend Discount</td>
+        <td class="price-column">Spend Discount:</td>
         <td class="price-column">{{ store.cart.spendDiscount | currency:"£" }}</td><td></td>
       </tr>
       <tr>
@@ -49,7 +49,8 @@
             <button class="btn btn-primary" ng-click="store.applyVoucherDiscount()">Apply Discount</button>
           </form>
         </td>
-        <td></td><td></td><td></td>
+        <td class="price-column"><strong>Total Price:</strong></td>
+        <td class="price-column"><strong>{{ store.cart.totalPrice | currency:"£" }}</strong></td><td></td>
       </tr>
     </tbody>
   </table>

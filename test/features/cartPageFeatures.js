@@ -113,4 +113,27 @@ describe('Cart page features', function() {
     });
   });
 
+  it('displays the total price with any discounts applied', function() {
+    casper.then(function() {
+      expect('table').to.contain.text('Total Price');
+      expect('table').to.contain.text('£71');
+    });
+  });
+
+  it('provides an alert when the user enters an incorrect voucher code', function() {
+    casper.then(function() {
+      this.fill('#voucher-form', {
+        'code': 'TENNERDISCOUNT'
+      }, false);
+      casper.then(function() {
+        this.clickLabel('Apply Discount');
+        casper.then(function() {
+          casper.waitUntilVisible('#voucher-modal', function() {
+            expect('#voucher-modal').to.contain.text('Invalid voucher code');
+          });
+        });
+      });
+    });
+  });
+
 });

@@ -49,6 +49,9 @@ describe('Store Controller', function(){
     httpBackend
       .when('POST', '/cart/vouchers', { code: 'FIVERDISCOUNT' })
       .respond({ success: true, message: 'Discount successfully applied' });
+    httpBackend
+      .when('POST', '/cart/vouchers', { code: 'TENNERDISCOUNT' })
+      .respond({ success: false, message: 'Invalid voucher code' });
   }));
 
   it('should retrieve all products', function() {
@@ -87,8 +90,15 @@ describe('Store Controller', function(){
     expect(store.message).toBe('Item successfully removed from cart');
   });
 
-  it('should enable a discount to be applied with the correct code', function() {
+  it('will provide an error message if an incorrect voucher code is supplied', function() {
+    store.voucherCode = 'TENNERDISCOUNT';
+    store.applyVoucherDiscount();
+    httpBackend.flush();
     expect(store.isVoucherDiscount()).toBe(false);
+    expect(store.message).toBe('Invalid voucher code');
+  });
+
+  it('should enable a discount to be applied with the correct code', function() {
     store.voucherCode = 'FIVERDISCOUNT';
     store.applyVoucherDiscount();
     httpBackend.flush();

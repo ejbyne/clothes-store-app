@@ -75,6 +75,11 @@ angular.module('storeController', [])
       store.message = data.message;
       store.voucherCode = '';
       $('#voucher-modal').modal('show');
+    })
+    .error(function(error) {
+      store.message = error.message;
+      store.voucherCode = '';
+      $('#voucher-modal').modal('show');
     });
   };
 
