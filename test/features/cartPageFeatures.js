@@ -26,11 +26,21 @@ describe('Cart page features', function() {
             this.clickLabel('Cart ');
             casper.then(function() {
               expect('body').to.contain.text('Your Shopping Cart');
-              expect('body').to.contain.text('Leather Driver Saddle Loafers, Tan');
-              expect('body').to.contain.text('£68');
+              expect('tbody').to.contain.text('Leather Driver Saddle Loafers, Tan');
+              expect('tbody').to.contain.text('Men\'s Footwear');
+              expect('tbody').to.contain.text('£68');
             });
           });
         });
+      });
+    });
+  });
+
+  it('enables the user to remove an item added to his or her cart', function() {
+    casper.then(function() {
+      this.clickLabel('Remove');
+      casper.then(function() {
+        expect('tbody').not.to.contain.text('Leather Driver Saddle Loafers, Tan');
       });
     });
   });

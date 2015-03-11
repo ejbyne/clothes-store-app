@@ -17,6 +17,9 @@
         <td>{{ item.category }}</td>
         <td>{{ item.quantity }}</td>
         <td>{{ item.price | currency:"£" }}</td>
+        <td>
+          <button ng-click="store.removeFromCart(item.id)" class="btn btn-primary">Remove<span class="glyphicon glyphicon-shopping-cart"></span></button>
+        </td>
       </tr>
     </tbody>
   </table>

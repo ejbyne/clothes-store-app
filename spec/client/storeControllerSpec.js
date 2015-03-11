@@ -43,6 +43,9 @@ describe('Store Controller', function(){
       .when('GET', '/cart')
       .respond( {cart: {items:[], sumOfItemPrices: 0, voucherDiscount: 0,
         spendDiscount: 0, totalDiscounts: 0, totalPrice: 0 }});
+    httpBackend
+      .when('DELETE', '/cart')
+      .response({ success: true, message: 'Item successfully removed from cart' });
   }));
 
   it('should retrieve all products', function() {
@@ -73,6 +76,12 @@ describe('Store Controller', function(){
     expect(store.message).toBe(undefined);
     httpBackend.flush();
     expect(store.message).toBe('Item successfully added to cart');
+  });
+
+  it('should enable an item to be removed from the cart', function() {
+    store.removeFromCart(1);
+    httpBackend.flush();
+    expect(store.message).toBe('Item successfully removed from cart');
   });
 
 });
