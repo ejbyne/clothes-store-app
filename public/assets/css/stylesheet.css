@@ -114,3 +114,8 @@ article {
 #sort-menu {
   margin-bottom: 20px;
 }
+
+.page-info h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}

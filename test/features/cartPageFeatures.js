@@ -8,7 +8,7 @@ describe('Cart page features', function() {
     casper.then(function() {
       this.clickLabel('Cart ');
       casper.then(function() {
-        expect('body').to.contain.text('Your Shopping Cart');
+        expect('h1').to.contain.text('Your Shopping Cart');
       });
     });
   });
