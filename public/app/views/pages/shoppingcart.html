@@ -19,7 +19,17 @@
       <tr ng-repeat="item in store.cart.items" id="item{{ item.id }}">
         <td>{{ item.name }}</td>
         <td>{{ item.category }}</td>
-        <td>{{ item.quantity }}</td>
+        <td>
+          <form>
+            <select name="quantity" ng-init="store.newQuantity[item.id] = item.quantity" ng-model="store.newQuantity[item.id]" ng-change="store.amendItemQuantity(item.id, item.quantity, store.newQuantity[item.id])">
+              <option value='1'>1</option>
+              <option value='2'>2</option>
+              <option value='3'>3</option>
+              <option value='4'>4</option>
+              <option value='5'>5</option>
+            </select>
+          </form>
+        </td>
         <td class="price-column">{{ item.price | currency:"£" }}</td>
         <td>
           <button ng-click="store.removeFromCart(item.id, item.quantity)" class="btn btn-primary">Remove</span></button>

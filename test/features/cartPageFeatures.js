@@ -136,4 +136,16 @@ describe('Cart page features', function() {
     });
   });
 
+  it('enables the user to change an item quantity', function() {
+    casper.then(function() {
+      this.fill('#item4 form', {
+        'quantity': '2'
+      }, false);
+      casper.then(function() {
+        expect('#item4').to.contain.text('2');
+        expect('#item4').to.contain.text('38');
+      });
+    });
+  });
+
 });

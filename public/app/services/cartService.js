@@ -16,6 +16,12 @@ angular.module('cartService', [])
     return $http.delete('/cart/items/' + id, { quantity: quantity });
   };
 
+  cartFactory.amend = function(id, existingQuantity, newQuantity) {
+    return $http.put('/cart/items/' + id, {
+      existingQuantity: existingQuantity, newQuantity: newQuantity
+    });
+  };
+
   cartFactory.requestDiscount = function(code) {
     return $http.post('/cart/vouchers', { code: code });
   };

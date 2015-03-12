@@ -55,6 +55,9 @@ describe('Store Controller', function(){
     httpBackend
       .when('POST', '/cart/vouchers', { code: 'TENNERDISCOUNT' })
       .respond({ success: false, message: 'Invalid voucher code' });
+    httpBackend
+      .when('PUT', '/cart/items/1', { existingQuantity: 2, newQuantity: 3 })
+      .respond({ success: true, message: 'Item quantity successfully amended' });
   }));
 
   it('should retrieve all products', function() {
@@ -127,6 +130,12 @@ describe('Store Controller', function(){
     expect(store.selectedFilter).toEqual({});
     store.filterProducts('M2');
     expect(store.selectedFilter).toEqual({ category: 'Men\'s Footwear'} );
+  });
+
+  it('should enable an item quantity to be amended', function() {
+    store.amendItemQuantity(1, 2, 3);
+    httpBackend.flush();
+    expect(store.message).toBe('Item quantity successfully amended');
   });
 
 });

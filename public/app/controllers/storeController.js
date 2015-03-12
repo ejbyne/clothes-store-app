@@ -20,6 +20,7 @@ angular.module('storeController', [])
     W3:  { category:      'Women\'s Casualwear' },
     W4:  { category:      'Women\'s Formalwear' }
   };
+  store.newQuantity = {}; 
 
   Product.all()
   .success(function(data) {
@@ -72,6 +73,16 @@ angular.module('storeController', [])
   store.removeFromCart = function(id, quantity) {
     Cart.remove(id, quantity)
     .success(function(data) {
+      store.findProducts();
+      store.getCart();
+      store.message = data.message;
+    });
+  };
+
+  store.amendItemQuantity = function(id, existingQuantity, newQuantity) {
+    Cart.amend(id, existingQuantity, newQuantity)
+    .success(function(data) {
+      store.findProducts();
       store.getCart();
       store.message = data.message;
     });
