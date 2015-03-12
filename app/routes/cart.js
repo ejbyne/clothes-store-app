@@ -18,6 +18,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
         try {
           shoppingCart.addItem(product, parseInt(request.body.quantity));
           product.quantity -= parseInt(request.body.quantity);
+          // If there were a real database then the ORM save function would need to be implemented here.
           response.status(200).send({ success: true, message: 'Item successfully added to cart' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });
@@ -36,6 +37,7 @@ module.exports = function(app, express, productDB, shoppingCart) {
           shoppingCart.amendItemQuantity(product, parseInt(request.body.newQuantity));
           product.quantity -= (parseInt(request.body.newQuantity) -
             parseInt(request.body.existingQuantity));
+          // If there were a real database then the ORM save function would need to be implemented here.
           response.status(200).send({ success: true, message: 'Item quantity successfully amended' });
         } catch (error) {
           response.status(403).send({ success: false, message: error });

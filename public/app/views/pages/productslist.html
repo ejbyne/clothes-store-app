@@ -55,7 +55,7 @@
     </a>
   </div>
 
-<!--   <div class="container" id="sort-menu">
+  <div id="sort-menu">
     <form>
       Sort products by: <select ng-init="store.sortingOption = 'category'" ng-model="store.sortingOption">
         <option value="category">Category</option>
@@ -64,14 +64,14 @@
         <option value="-price">Price: High to Low</option>
       </select>
     </form>
-  </div> -->
+  </div>
 
-  <section class="container">
+  <section class="row col-md-12" id="product-info">
     <article ng-repeat="product in store.products | filter:store.selectedFilter:true | orderBy:store.sortingOption" class="col-md-4">
       <div class="product" id="product{{ product.id }}">
         <p><strong>{{ product.name }}</strong><br>
         {{ product.category }}<br></p>
-        <img class="item-picture" src="assets/images/clothes.jpg">
+        <img class="thumbnail" src="assets/images/clothes.jpg">
         <p class="description">{{ product.price | currency:"£" }}<br>
         {{ product.quantity }} in stock</p>
         <form>
@@ -88,21 +88,21 @@
     </article>
   </section>
   
-  <div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <br>
-        </div>
-        <div class="modal-body">
-          <h4>{{ store.message }}.</h4>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+</div>
+
+<div class="modal fade" id="cart-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <br>
+      </div>
+      <div class="modal-body">
+        <h4>{{ store.message }}.</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-
 </div>
