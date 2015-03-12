@@ -4,11 +4,12 @@ var ShoppingCart = function() {
 };
 
 ShoppingCart.prototype.addItem = function(product, quantity) {
+  var existingItem = this.findExistingItem(product);
   if (product.quantity < quantity) {
     throw 'Insufficient stock';
-  } else if (this.findExistingItem(product)) {
-    this.findExistingItem(product).quantity += quantity;
-    this.findExistingItem(product).price += product.price * quantity;
+  } else if (existingItem) {
+    existingItem.quantity += quantity;
+    existingItem.price += product.price * quantity;
   } else {
     this.items.push({ id: product.id, name: product.name, category: product.category,
                       price: product.price * quantity, quantity: quantity });

@@ -24,8 +24,7 @@ module.exports = function(grunt){
     watch: {
       scripts: {
         files: ['spec/**/*', 'test/**/*', 'app/**/*', 'public/app/**/*'],
-        // tasks: ['express:test', 'jshint', 'jasmine_node', 'mocha_casperjs', 'karma']
-        tasks: ['express:test', 'mocha_casperjs', 'karma']
+        tasks: ['karma', 'express:test', 'jshint', 'jasmine_node', 'mocha_casperjs']
       }
     },
 
@@ -50,23 +49,6 @@ module.exports = function(grunt){
       }
     }
 
-    // protractor: {
-    //   options: {
-    //     configFile: "protractor.conf.js", // Default config file
-    //     keepAlive: true, // If false, the grunt process stops when the test fails.
-    //     noColor: false, // If true, protractor will not use colors in its output.
-    //     args: {
-    //       // Arguments passed to the command
-    //     }
-    //   },
-    //   your_target: {   // Grunt requires at least one target to run so you can simply put 'all: {}' here too.
-    //     options: {
-    //       configFile: "protractor.conf.js", // Target-specific config file
-    //       args: {} // Target-specific arguments
-    //     }
-    //   },
-    // }
-
   });
 
   grunt.loadNpmTasks('grunt-jasmine-node');
@@ -75,7 +57,6 @@ module.exports = function(grunt){
   grunt.loadNpmTasks('grunt-mocha-casperjs');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-karma');
-  // grunt.loadNpmTasks('grunt-protractor-runner');
 
   grunt.registerTask('default', ['karma', 'express:test', 'jshint', 'jasmine_node', 'mocha_casperjs']);
 
