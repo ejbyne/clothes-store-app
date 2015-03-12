@@ -34,9 +34,6 @@ describe('Store Controller', function(){
       .when('GET', '/products')
       .respond({ products: mockProducts });
     httpBackend
-      .when('GET', '/products/1')
-      .respond({ product: mockProducts[0] });
-    httpBackend
       .when('POST', '/cart/items', { id: 1, quantity: 2 })
       .respond({ success: true, message: 'Item successfully added to cart' });
     httpBackend
@@ -67,13 +64,6 @@ describe('Store Controller', function(){
     expect(store.products[2]).toEqual(mockProducts[2]);
   });
 
-  it('should retrieve a requested product', function() {
-    store.findProductById(1);
-    expect(store.selectedProduct).toBe(undefined);
-    httpBackend.flush();
-    expect(store.selectedProduct).toEqual(mockProducts[0]);
-  });
-
   it('should retrieve the contents of the cart', function() {
     store.getCart();
     expect(store.cart).toEqual({ items: [] });
@@ -83,7 +73,7 @@ describe('Store Controller', function(){
   });
 
   it('should enable an item to be added to the cart', function() {
-    store.orderQuantities[1] = 2;
+    store.orderQuantity[1] = 2;
     store.addToCart(1);
     expect(store.message).toBe(undefined);
     httpBackend.flush();
@@ -91,7 +81,7 @@ describe('Store Controller', function(){
   });
 
   it('should provide an error message when there is insufficient stock', function() {
-    store.orderQuantities[5] = 1;
+    store.orderQuantity[5] = 1;
     store.addToCart(5);
     httpBackend.flush();
     expect(store.message).toBe('Insufficient stock');
@@ -133,7 +123,8 @@ describe('Store Controller', function(){
   });
 
   it('should enable an item quantity to be amended', function() {
-    store.amendItemQuantity(1, 2, 3);
+    store.newQuantity[1] = 3;
+    store.amendItemQuantity(1, 2);
     httpBackend.flush();
     expect(store.message).toBe('Item quantity successfully amended');
   });

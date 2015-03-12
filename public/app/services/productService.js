@@ -8,10 +8,6 @@ angular.module('productService', [])
     return $http.get('/products');
   };
 
-  productFactory.get = function(id) {
-    return $http.get('/products/' + id);
-  };
-
   return productFactory;
 
 });

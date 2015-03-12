@@ -58,15 +58,26 @@
     </a>
   </div>
 
+  <div class="container" id="sort-menu">
+    <form>
+      Sort products by: <select ng-init="store.sortingOption = 'category'" ng-model="store.sortingOption">
+        <option value="category">Category</option>
+        <option value="name">Alphabet</option>
+        <option value="price">Price: Low to High</option>
+        <option value="-price">Price: High to Low</option>
+      </select>
+    </form>
+  </div>
+
   <section>
-    <article ng-repeat="product in store.products | filter:store.selectedFilter:true" class="col-md-4">
+    <article ng-repeat="product in store.products | filter:store.selectedFilter:true | orderBy:store.sortingOption" class="col-md-4">
       <div class="product" id="product{{ product.id }}">
         <p><strong>{{ product.name }}</strong><br>
         {{ product.category }}<br>
         {{ product.price | currency:"£" }}<br>
         {{ product.quantity }} in stock<br></p>
         <form>
-          Quantity: <select name="quantity" ng-model="store.orderQuantities[product.id]">
+          Quantity: <select name="quantity" ng-init="store.orderQuantity[product.id] = 1" ng-model="store.orderQuantity[product.id]">
             <option value='1'>1</option>
             <option value='2'>2</option>
             <option value='3'>3</option>

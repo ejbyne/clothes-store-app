@@ -110,3 +110,7 @@ article {
 .price-column {
   text-align: right;
 }
+
+#sort-menu {
+  margin-bottom: 20px;
+}

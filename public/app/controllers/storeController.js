@@ -7,7 +7,8 @@ angular.module('storeController', [])
   store.cart = {
     items: []
   };
-  store.orderQuantities = {};
+  store.orderQuantity = {};
+  store.newQuantity = {};
   store.selectedFilter = {};
   store.filterOptions = {
     ALL: {},
@@ -20,32 +21,11 @@ angular.module('storeController', [])
     W3:  { category:      'Women\'s Casualwear' },
     W4:  { category:      'Women\'s Formalwear' }
   };
-  store.newQuantity = {}; 
-
-  Product.all()
-  .success(function(data) {
-    store.products = data.products;
-    store.products.forEach(function(product) {
-      store.orderQuantities[product.id] = 1;
-    });
-  });
-
-  Cart.get()
-  .success(function(data) {
-    store.cart = data.cart;
-  });
 
   store.findProducts = function() {
     Product.all()
     .success(function(data) {
       store.products = data.products;
-    });
-  };
-
-  store.findProductById = function(id) {
-    Product.get(id)
-    .success(function(data) {
-      store.selectedProduct = data.product;
     });
   };
 
@@ -57,35 +37,52 @@ angular.module('storeController', [])
   };
 
   store.addToCart = function(id) {
-    Cart.add(id, store.orderQuantities[id])
+    Cart.add(id, store.orderQuantity[id])
     .success(function(data) {
-      store.orderQuantities[id] = 1;
-      store.findProducts();
-      store.message = data.message;
-      $('#cart-modal').modal('show');
+      store.updateData(data.message);
+      store.cartMessage(id);
     })
     .error(function(error) {
-      store.message = error.message;
-      $('#cart-modal').modal('show');
+      store.updateData(error.message);
+      store.cartMessage(id);
     });
   };
 
   store.removeFromCart = function(id, quantity) {
     Cart.remove(id, quantity)
     .success(function(data) {
-      store.findProducts();
-      store.getCart();
-      store.message = data.message;
+      store.updateData(data.message);
     });
   };
 
-  store.amendItemQuantity = function(id, existingQuantity, newQuantity) {
-    Cart.amend(id, existingQuantity, newQuantity)
+  store.amendItemQuantity = function(id, quantity) {
+    Cart.amend(id, quantity, store.newQuantity[id])
     .success(function(data) {
-      store.findProducts();
-      store.getCart();
-      store.message = data.message;
+      store.updateData(data.message);
+    })
+    .error(function(error) {
+      store.updateData(error.message);
+      store.newQuantity[id] = quantity;
+      store.cartMessage(id);
     });
+  };
+
+  store.applyVoucherDiscount = function() {
+    Cart.requestDiscount(store.voucherCode)
+    .success(function(data) {
+      store.voucherMessage();
+      store.updateData(data.message);
+    })
+    .error(function(error) {
+      store.voucherMessage();
+      store.updateData(error.message);
+    });
+  };
+
+  store.updateData = function(message) {
+    store.message = message;
+    store.getCart();
+    store.findProducts();
   };
 
   store.isCartEmpty = function() {
@@ -93,21 +90,6 @@ angular.module('storeController', [])
       return true;
     }
     return false;
-  };
-
-  store.applyVoucherDiscount = function() {
-    Cart.requestDiscount(store.voucherCode)
-    .success(function(data) {
-      store.getCart();
-      store.message = data.message;
-      store.voucherCode = '';
-      $('#voucher-modal').modal('show');
-    })
-    .error(function(error) {
-      store.message = error.message;
-      store.voucherCode = '';
-      $('#voucher-modal').modal('show');
-    });
   };
 
   store.isVoucherDiscount = function() {
@@ -121,5 +103,18 @@ angular.module('storeController', [])
   store.filterProducts = function(filterCode) {
     store.selectedFilter = store.filterOptions[filterCode];
   };
+
+  store.cartMessage = function(id) {
+    store.orderQuantity[id] = 1;
+    $('#cart-modal').modal('show');
+  };
+
+  store.voucherMessage = function() {
+    store.voucherCode = '';
+    $('#voucher-modal').modal('show');
+  };
+
+  store.findProducts();
+  store.getCart();
 
 });
