@@ -54,14 +54,14 @@ var ProductDB = function() {
       category:       "Women's Casualwear",
       supercategory:  "Women's",
       price:          30,
-      quantity:       30
+      quantity:       5
     },
     {
       id:             8,
       name:           "Fine Strip Short Sleeve Shirt, Grey",
       category:       "Men's Casualwear",
       supercategory:  "Men's",
-      price:          49,
+      price:          49.99,
       quantity:       9
     },
     {
