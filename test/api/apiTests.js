@@ -13,9 +13,11 @@ describe('API tests', function() {
         expect(response.status).to.equal(200);
         expect(response.contentType).to.equal('application/json; charset=utf-8');
         expect('body').to.contain.text('{"id":1,"name":"Almond Toe Court ' +
-          'Shoes, Patent Black","category":"Women\'s Footwear","price":99,"quantity":5}');
+          'Shoes, Patent Black","category":"Women\'s Footwear",' +
+          '"supercategory":"Women\'s","price":99,"quantity":5}');
         expect('body').to.contain.text('{"id":13,"name":"Mid Twist Cut-Out ' +
-          'Dress, Pink","category":"Women\'s Formalwear","price":540,"quantity":5}');
+          'Dress, Pink","category":"Women\'s Formalwear",' +
+          '"supercategory":"Women\'s","price":540,"quantity":5}');
       });
     });
 
@@ -23,8 +25,9 @@ describe('API tests', function() {
       casper.thenOpen(host + '/products/2', function(response) {
         expect(response.status).to.equal(200);
         expect(response.contentType).to.equal('application/json; charset=utf-8');
-        expect('body').to.have.text('{"product":{"id":2,"name":"Suede Shoes, Blue"' +
-          ',"category":"Women\'s Footwear","price":42,"quantity":4}}');
+        expect('body').to.have.text('{"product":{"id":2,"name":"Suede Shoes, Blue",' +
+          '"category":"Women\'s Footwear","supercategory":"Women\'s","price":42,' +
+          '"quantity":4}}');
       });
     });
 

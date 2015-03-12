@@ -8,6 +8,18 @@ angular.module('storeController', [])
     items: []
   };
   store.orderQuantities = {};
+  store.selectedFilter = {};
+  store.filterOptions = {
+    ALL: {},
+    M1:  { supercategory: 'Men\'s' },
+    M2:  { category:      'Men\'s Footwear' },
+    M3:  { category:      'Men\'s Casualwear' },
+    M4:  { category:      'Men\'s Formalwear' },
+    W1:  { supercategory: 'Women\'s' },
+    W2:  { category:      'Women\'s Footwear' },
+    W3:  { category:      'Women\'s Casualwear' },
+    W4:  { category:      'Women\'s Formalwear' }
+  };
 
   Product.all()
   .success(function(data) {
@@ -93,6 +105,10 @@ angular.module('storeController', [])
 
   store.isSpendDiscount = function() {
     return store.cart.spendDiscount > 0;
+  };
+
+  store.filterProducts = function(filterCode) {
+    store.selectedFilter = store.filterOptions[filterCode];
   };
 
 });

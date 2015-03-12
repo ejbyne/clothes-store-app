@@ -55,4 +55,14 @@ describe('Product page features', function() {
     });
   });
 
+  it('enables the user to filter items by category', function() {
+    casper.then(function() {
+      this.clickLabel('Men\'s Items');
+      casper.then(function() {
+        expect('section').not.to.contain.text('Women\'s');
+        this.clickLabel('All Items');
+      });
+    })
+  });
+
 });

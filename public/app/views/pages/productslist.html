@@ -1,14 +1,14 @@
 <div class="container col-sm-2 col-md-2 sidebar">
   <ul class="nav nav-sidebar col-sm-2 col-md-2">
-    <li class="title"><a href="#"><strong>All Items</strong></a></li>
-    <li class="title"><a href="#"><strong>Men's Items</strong></a></li>
-    <li><a href="#">Footwear</a></li>
-    <li><a href="#">Casualwear</a></li>
-    <li><a href="#">Formalwear</a></li>
-    <li class="title"><a href="#"><strong>Women's Items</strong></a></li>
-    <li><a href="#">Footwear</a></li>
-    <li><a href="#">Casualwear</a></li>
-    <li><a href="#">Formalwear</a></li>
+    <li class="title"><a href="#" ng-click="store.filterProducts('ALL')"><strong>All Items</strong></a></li>
+    <li class="title"><a href="#" ng-click="store.filterProducts('M1')"><strong>Men's Items</strong></a></li>
+    <li><a href="#" ng-click="store.filterProducts('M2')">Footwear</a></li>
+    <li><a href="#" ng-click="store.filterProducts('M3')">Casualwear</a></li>
+    <li><a href="#" ng-click="store.filterProducts('M4')">Formalwear</a></li>
+    <li class="title"><a href="#" ng-click="store.filterProducts('W1')"><strong>Women's Items</strong></a></li>
+    <li><a href="#" ng-click="store.filterProducts('W2')">Footwear</a></li>
+    <li><a href="#" ng-click="store.filterProducts('W3')">Casualwear</a></li>
+    <li><a href="#" ng-click="store.filterProducts('W4')">Formalwear</a></li>
     <li class="title"></li>
   </ul>
 </div>
@@ -59,7 +59,7 @@
   </div>
 
   <section>
-    <article ng-repeat="product in store.products" class="col-md-4">
+    <article ng-repeat="product in store.products | filter:store.selectedFilter:true" class="col-md-4">
       <div class="product" id="product{{ product.id }}">
         <p><strong>{{ product.name }}</strong><br>
         {{ product.category }}<br>

@@ -123,4 +123,10 @@ describe('Store Controller', function(){
     expect(store.isSpendDiscount()).toBe(true);
   });
 
+  it('knows when a product filter has been selected', function() {
+    expect(store.selectedFilter).toEqual({});
+    store.filterProducts('M2');
+    expect(store.selectedFilter).toEqual({ category: 'Men\'s Footwear'} );
+  });
+
 });
